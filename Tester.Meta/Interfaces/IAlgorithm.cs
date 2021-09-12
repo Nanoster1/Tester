@@ -8,6 +8,7 @@ namespace Tester.Meta.Interfaces
 {
     public interface IAlgorithm
     {
-        public void TestRun();
+        public string Name { get; }
+        public void TestRun(object[] @params);
     }
 }

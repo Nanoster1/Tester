@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Tester.Meta.Algorithms.FirstTask;
 using Tester.Meta.Interfaces;
-using Tester.Meta.Servis;
 using Tester.Meta.Testers;
 using Xunit;
+using System.Linq;
+using Tester.Meta.Models;
 
 namespace Tester.XUnitTests
 {
@@ -15,20 +17,15 @@ namespace Tester.XUnitTests
         [MemberData(nameof(AlgorithmData))]
         public void AlgorithmsTest(IAlgorithm algorithm) 
         {
-            var path = Path.Combine(FileWorker.AlgorithmFolder.FullName,$"text{algorithm.ToString()}.csv");
-            var list = new List<string>();
-			for (int i = 1; i <= 2000; i++)
-			{
-                TimeSpan time = TimeSpan.Zero;
-				for (int y = 0; y <= 5; y++)
-				{
-                    var tester = new TimeTester();
-                    tester.Test(algorithm);
-                    time += tester.Result;
-                }
-                list.Add($"{time / 5};");
+            var tester = new TimeTester();
+            /* var enumerable = Enumerable.Range(1, 2000);
+             enumerable.AsParallel()
+                 .ForAll(x => tester.Test(algorithm, 5, new object[] { Vector.RandomGenerate(x) }));*/
+            for (int i = 0; i < 2000; i++)
+            {
+                tester.Test(algorithm, 5, new object[] { Vector.RandomGenerate(i) });
             }
-            File.WriteAllLines(path, list);
+            tester.Save(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         }
         public static IEnumerable<object[]> AlgorithmData()
         {

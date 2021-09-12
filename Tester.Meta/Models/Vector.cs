@@ -27,10 +27,10 @@ namespace Tester.Meta.Models
 			set => _values[index] = value;
         }
 
-		public static Vector RandomGenerate()
+		public static Vector RandomGenerate(int measure)
         {
 			Random random = new();
-			Vector vector = new(random.Next());
+			Vector vector = new(measure);
 			for (int i = 0; i < vector.Count; i++)
             {
 				vector[i] = random.Next();
