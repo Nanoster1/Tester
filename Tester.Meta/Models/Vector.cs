@@ -19,7 +19,7 @@ namespace Tester.Meta.Models
 			_values = new int[_mesure];
 		}
 
-		public long Count => _values.Length;
+		public int Count => _values.Length;
 
 		public int this[int index]
         {

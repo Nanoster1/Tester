@@ -13,7 +13,7 @@ using Tester.Meta.Models;
 
 namespace Tester.Meta.Testers
 {
-    public class TimeTester : Tester<TimeSpan>, ISavableTester
+    public class TimeTester : Tester<TimeSpan>, ISavable
     {
         public TimeTester()
         {
