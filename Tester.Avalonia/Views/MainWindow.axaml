@@ -12,6 +12,14 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Canvas x:Name="canvas"
+          Grid.Row="3"
+          Background="White"
+          Width="400"
+          Height="400"
+          PointerPressed="Field_MouseDown"
+          PointerMoved="Field_MouseMove"
+          PointerWheelChanged="Canvas_MouseWheel">
+  </Canvas>
 
 </Window>

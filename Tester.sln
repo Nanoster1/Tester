@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester.Avalonia", "Tester.Avalonia\Tester.Avalonia.csproj", "{412A08F8-0739-4012-A898-65098A6686AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester.Meta", "Tester.Meta\Tester.Meta.csproj", "{5423BBC7-16BF-4482-BD22-594C34E33A7D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester.XUnitTests", "Tester.XUnitTests\Tester.XUnitTests.csproj", "{68B26776-0091-4BA2-A99C-923B5E7B7E6A}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{412A08F8-0739-4012-A898-65098A6686AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{412A08F8-0739-4012-A898-65098A6686AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{412A08F8-0739-4012-A898-65098A6686AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{412A08F8-0739-4012-A898-65098A6686AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5423BBC7-16BF-4482-BD22-594C34E33A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5423BBC7-16BF-4482-BD22-594C34E33A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5423BBC7-16BF-4482-BD22-594C34E33A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU

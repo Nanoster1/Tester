@@ -13,17 +13,17 @@ using Tester.Meta.Models;
 
 namespace Tester.Meta.Testers
 {
-    public class TimeTester : Tester<TimeSpan>, ISavable
+    public class TimeTester : ITester<double>, ISavable
     {
         public TimeTester()
         {
             LastResult = new();
             AllResults = new();
         }
-        public override TestResult<TimeSpan> LastResult { get; protected set; }
-        public override List<TestResult<TimeSpan>> AllResults { get; protected set; }
+        public TestResult<double> LastResult { get; protected set; }
+        public List<TestResult<double>> AllResults { get; protected set; }
 
-        public override void Test(IAlgorithm algorithm, int iterationNumber, object[] algParams)
+        public void Test(IAlgorithm algorithm, int iterationNumber, object[] algParams)
         {
             var time = new Stopwatch();
             var result = TimeSpan.Zero;
@@ -36,7 +36,7 @@ namespace Tester.Meta.Testers
             }
             lock (AllResults)
             {
-                TestResult<TimeSpan> testResult = new(AllResults.Count + 1, result / iterationNumber, algorithm.Name);
+                TestResult<double> testResult = new(AllResults.Count + 1, (result / iterationNumber).TotalMilliseconds, algorithm.Name);
                 AllResults.Add(testResult);
                 LastResult = testResult;
             }

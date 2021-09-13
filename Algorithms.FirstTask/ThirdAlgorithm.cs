@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using Tester.Meta.Interfaces;
 using Vector = Tester.Meta.Models.Vector;
 
@@ -12,7 +7,7 @@ namespace Tester.Meta.Algorithms.FirstTask
     public class ThirdAlgorithm : IAlgorithm
     {
         public string Name => nameof(ThirdAlgorithm);
-        public BigInteger Calculate(Vector vector)
+        public BigInteger Calculate(int[] vector)
         {
             BigInteger value = new(1);
             foreach (var element in vector)
@@ -22,7 +17,7 @@ namespace Tester.Meta.Algorithms.FirstTask
 
         public void TestRun(object[] @params)
         {
-            Calculate(@params[0] as Vector);
+            Calculate((int[])@params[0]);
         }
     }
 }

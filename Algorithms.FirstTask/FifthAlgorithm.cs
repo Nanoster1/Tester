@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tester.Meta.Interfaces;
+﻿using Tester.Meta.Interfaces;
 using Tester.Meta.Models;
 
 namespace Tester.Meta.Algorithms.FirstTask
@@ -12,11 +7,11 @@ namespace Tester.Meta.Algorithms.FirstTask
     {
         public string Name => nameof(FifthAlgorithm);
 
-        public void Sort(Vector vector)
+        public void Sort(int[] vector)
         {
-            for(int i = 0; i < vector.Count; i++)
+            for (int i = 0; i < vector.Length; i++)
             {
-                for(int k = i + 1; k < vector.Count; k++)
+                for (int k = i + 1; k < vector.Length; k++)
                 {
                     if (vector[i] > vector[k])
                     {
@@ -30,7 +25,7 @@ namespace Tester.Meta.Algorithms.FirstTask
 
         public void TestRun(object[] @params = null)
         {
-            Sort(@params[0] as Vector);
+            Sort((int[])@params[0]);
         }
     }
 }
