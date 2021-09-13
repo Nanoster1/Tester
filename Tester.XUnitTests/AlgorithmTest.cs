@@ -41,7 +41,7 @@ namespace Tester.XUnitTests
             yield return new object[] { new ThirdAlgorithm() };
             yield return new object[] { new FourthAlgorithm() };
             yield return new object[] { new FifthAlgorithm() };
-            yield return new object[] { new SixthAlgorithm() };
+            /*yield return new object[] { new SixthAlgorithm() };*/
         }
     }
 }
