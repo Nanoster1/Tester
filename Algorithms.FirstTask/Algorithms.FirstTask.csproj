@@ -8,10 +8,4 @@
     <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Tester.Meta">
-      <HintPath>..\Tester.Meta\bin\Debug\net5.0\Tester.Meta.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

@@ -24,10 +24,4 @@
     <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Algorithms.FirstTask">
-      <HintPath>..\Algorithms.FirstTask\bin\Debug\net5.0\Algorithms.FirstTask.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
