@@ -10,47 +10,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Models;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 
 namespace Tester.Meta.Testers
 {
-    public class TimeTester : ITester<double>, ISavable
+    public class TimeTester : ITester<double>
     {
         public TimeTester()
         {
             LastResult = new();
-            AllResults = new();
+            AllResults = new List<TestResult<double>>();
         }
-        public TestResult<double> LastResult { get; protected set; }
-        public List<TestResult<double>> AllResults { get; protected set; }
 
-        public void Test(IAlgorithm algorithm, int iterationNumber, object[] algParams)
+        public TestResult<double> LastResult { get; protected set; }
+        public IList<TestResult<double>> AllResults { get; protected set; }
+
+        public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
             var result = TimeSpan.Zero;
-            for (int i = 0; i < iterationNumber + 1; i++)
+            algorithm.Invoke(); //First "long" start
+            for (int i = 0; i < iterationNumber; i++)
             {
                 time.Restart();
-                algorithm.TestRun(algParams);
+                algorithm.Invoke();
                 time.Stop();
                 result += time.Elapsed;
             }
-            lock (AllResults)
+            var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
+            var generalResult = (result / iterationNumber).TotalMilliseconds;
+            TestResult<double> testResult = new(resultID, generalResult , name);
+            LastResult = testResult;
+            lock (AllResults) 
             {
-                TestResult<double> testResult = new(AllResults.Count + 1, (result / iterationNumber).TotalMilliseconds, algorithm.Name);
-                AllResults.Add(testResult);
-                LastResult = testResult;
-            }
-        }
-        
-        public void Save(string path)
-        {
-            path = Path.Combine(path, $"TimeTester_{LastResult.AlgorithmName}.csv");
-            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
-            configuration.Delimiter = ";";
-            using (var writer = new StreamWriter(path))
-            using (var csv = new CsvWriter(writer, configuration))
-            {
-                csv.WriteRecords(AllResults);
+                AllResults.Add(testResult); 
             }
         }
     }

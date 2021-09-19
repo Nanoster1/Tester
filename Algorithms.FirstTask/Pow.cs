@@ -7,25 +7,20 @@ using Tester.Meta.Interfaces;
 
 namespace Algorithms.FirstTask
 {
-	public class EighthAlgorithm : IAlgorithm
+	public static class Pow
 	{
-		public enum Methods
-		{
-			Cycle, Rec, Quick, QuickAlt
-		}
-		public string Name => nameof(EighthAlgorithm)+'1';
-
-		public double Cycle(double num, int rank)
+		public static double Cycle(double num, int rank)
 		{
 			if (rank == 0) return 1;
+			double result = num;
 			for(int k = 0; k < rank; k++)
 			{
-				num *= num;
+				result *= num;
 			}
-			return num;
+			return result;
 		} 
 
-		public double Recursion(double num, int rank)
+		public static double Recursion(double num, int rank)
 		{
 			if (rank == 0) return 1;
 			var result = Recursion(num, rank / 2);
@@ -36,7 +31,7 @@ namespace Algorithms.FirstTask
 			return result;
 		}
 
-		public double QuickPow(double num, int rank)
+		public static double QuickPow(double num, int rank)
 		{
 			double result;
 			if (rank % 2 == 1)
@@ -53,7 +48,7 @@ namespace Algorithms.FirstTask
 			return result;
 		}
 
-		public double QuickPowAlt(double num, int rank)
+		public static double QuickPowAlt(double num, int rank)
 		{
 			double result = 1;
 			while(rank != 0)
@@ -61,7 +56,7 @@ namespace Algorithms.FirstTask
 				if (rank % 2 == 0)
 				{
 					num *= num;
-					rank %= 2;
+					rank /= 2;
 				}
 				else
 				{
@@ -70,28 +65,6 @@ namespace Algorithms.FirstTask
 				}
 			}
 			return result;
-		}
-
-		public void TestRun(object[] @params = null)
-		{
-			var method = (Methods)@params[2];
-			var num = (double)@params[0];
-			var rank = (int)@params[1];
-			switch (method)
-			{
-				case (Methods.Cycle):
-					Cycle(num, rank);
-					break;
-				case (Methods.Rec):
-					Recursion(num, rank);
-					break;
-				case (Methods.Quick):
-					QuickPow(num, rank);
-					break;
-				case (Methods.QuickAlt):
-					QuickPowAlt(num, rank);
-					break;
-			}
 		}
 	}
 }
