@@ -1,5 +1,6 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 namespace Tester.Avalonia.Views
@@ -18,5 +19,7 @@ namespace Tester.Avalonia.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
+
+       
     }
 }

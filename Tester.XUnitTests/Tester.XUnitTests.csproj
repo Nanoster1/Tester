@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Algorithms.FirstTask\Algorithms.FirstTask.csproj" />
     <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
   </ItemGroup>
 
