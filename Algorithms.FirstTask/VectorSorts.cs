@@ -30,14 +30,19 @@ namespace Algorithms.FirstTask
             double[] lowElements = new double[lowCount];
             double[] equalElements = new double[equalCount];
 
-            foreach(var element in vector)
+            int lowindex = 0;
+            int bigindex = 0;
+            int equalindex = 0;
+
+            for (int i = 0; i < vector.Length; i++)
             {
+                var element = vector[i];
                 if (element > randomNum)
-                    bigElements[bigCount - 1] = element;
+                    bigElements[bigindex++] = element;                  
                 else if (element < randomNum)
-                    lowElements[lowCount - 1] = element;
+                    lowElements[lowindex++] = element;
                 else
-                    equalElements[equalCount - 1] = element;
+                    equalElements[equalindex++] = element;
             }
 
             QuickSort(lowElements);

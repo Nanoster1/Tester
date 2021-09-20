@@ -11,67 +11,98 @@ namespace Tester.XUnitTests
 {
     public class AlgorithmTest
     {
+        [Theory]
+        [MemberData(nameof(GetSortAlgs))]
+        public void TestSortAlgorithm(Func<double[],double[]> sortFunc)
+		{
+            double[] array = { 1.2, 3.6, 1.2, 2.4, 0.2 };
+            var newArr = sortFunc.Invoke(array);
+            Assert.Equal(newArr, array.OrderBy(x => x));
+        }
+		public static IEnumerable<object[]> GetSortAlgs()
+		{
+            yield return new object[] { (Func<double[], double[]>)VectorSorts.BubbleSort };
+            yield return new object[] { (Func<double[],double[]>)(x=> VectorSorts.InsertionSort(x,0,0)) };
+            yield return new object[] { (Func<double[], double[]>)VectorSorts.QuickSort };
+            yield return new object[] { (Func<double[], double[]>)VectorSorts.TimSort };
+        }
+        [Theory]
+        [MemberData(nameof(GetPowAlgs))]
+        public void TestPowAlgorithm(Func<double,int,double> sortFunc)
+        {
+            int rank = 3;
+            double num = 1.5;
+            var result = sortFunc.Invoke(num,rank);
+            Assert.Equal(result, Math.Pow(num,rank));
+        }
+        public static IEnumerable<object[]> GetPowAlgs()
+        {
+            yield return new object[] { (Func<double, int, double>)Pow.Cycle };
+            yield return new object[] { (Func<double, int, double>)Pow.QuickPow };
+            yield return new object[] { (Func<double, int, double>)Pow.QuickPowAlt };
+            yield return new object[] { (Func<double, int, double>)Pow.Recursion };
+        }
         [Fact]
         public void BaseAlgorithmTest()
 		{
-            TestVectorAlgorithm(x => BaseAlgorithm.Calculate(x),nameof(BaseAlgorithm),5);
+            BigTestVectorAlgorithm(x => BaseAlgorithm.Calculate(x),nameof(BaseAlgorithm),5);
         }
         [Fact]
         public void SumAlgorithmTest()
         {
-            TestVectorAlgorithm(x => Sum.Calculate(x), nameof(Sum), 5);
+            BigTestVectorAlgorithm(x => Sum.Calculate(x), nameof(Sum), 5);
         }
         [Fact]
         public void MulAlgorithmTest()
         {
-            TestVectorAlgorithm(x => Mul.Calculate(x), nameof(Mul), 5);
+            BigTestVectorAlgorithm(x => Mul.Calculate(x), nameof(Mul), 5);
         }
         [Fact]
         public void PolynomAlgorithmTest()
         {
-            TestVectorAlgorithm(x => Polynom.Calculate(x,10.57f), nameof(Polynom), 5);
+            BigTestVectorAlgorithm(x => Polynom.Calculate(x,10.57f), nameof(Polynom), 5);
         }
         [Fact]
         public void BubleSortAlgorithmTest()
         {
-            TestVectorAlgorithm(x => VectorSorts.BubbleSort(x), nameof(VectorSorts.BubbleSort), 5);
+            BigTestVectorAlgorithm(x => VectorSorts.BubbleSort(x), nameof(VectorSorts.BubbleSort), 5);
         }
         [Fact]
         public void InsertionSortAlgorithmTest()
         {
-            TestVectorAlgorithm(x => VectorSorts.InsertionSort(x), nameof(VectorSorts.InsertionSort), 5);
+            BigTestVectorAlgorithm(x => VectorSorts.InsertionSort(x), nameof(VectorSorts.InsertionSort), 5);
         }
         [Fact]
         public void QuickSortAlgorithmTest()
         {
-            TestVectorAlgorithm(x => VectorSorts.QuickSort(x), nameof(VectorSorts.QuickSort), 5);         
+            BigTestVectorAlgorithm(x => VectorSorts.QuickSort(x), nameof(VectorSorts.QuickSort), 5);         
         }
         [Fact]
         public void TimSortAlgorithmTest()
         {
-            TestVectorAlgorithm(x => VectorSorts.TimSort(x), nameof(VectorSorts.TimSort), 5);
+            BigTestVectorAlgorithm(x => VectorSorts.TimSort(x), nameof(VectorSorts.TimSort), 5);
         }
         [Fact]
         public void PowCycleTest()
         {
-            TestPowAlgorithm(x => Pow.Cycle(10.12,x), nameof(Pow.Cycle), 5);
+            BigTestPowAlgorithm(x => Pow.Cycle(10.12,x), nameof(Pow.Cycle), 5);
         }
         [Fact]
         public void QuickPowTest()
         {
-            TestPowAlgorithm(x => Pow.QuickPow(10.12, x), nameof(Pow.QuickPow), 5);
+            BigTestPowAlgorithm(x => Pow.QuickPow(10.12, x), nameof(Pow.QuickPow), 5);
         }
         [Fact]
         public void PowRecursionTest()
         {
-            TestPowAlgorithm(x => Pow.Recursion(10.12, x), nameof(Pow.Recursion), 5);
+            BigTestPowAlgorithm(x => Pow.Recursion(10.12, x), nameof(Pow.Recursion), 5);
         }
         [Fact]
         public void QuickPowAltTest()
         {
-            TestPowAlgorithm(x => Pow.QuickPowAlt(10.12, x), nameof(Pow.QuickPowAlt), 5);
+            BigTestPowAlgorithm(x => Pow.QuickPowAlt(10.12, x), nameof(Pow.QuickPowAlt), 5);
         }
-        private static void TestVectorAlgorithm(Func<double[],object> function,string name , int interationCount)
+        private static void BigTestVectorAlgorithm(Func<double[],object> function,string name , int interationCount)
 		{
             ITester<long> tester = new MemoryTester();
             ITester<double> tester2 = new TimeTester();
@@ -86,7 +117,7 @@ namespace Tester.XUnitTests
             tester2.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(TimeTester));
             tester2.AllResults.Clear();
         }
-        private static void TestPowAlgorithm(Func<int, object> function, string name, int interationCount)
+        private static void BigTestPowAlgorithm(Func<int, object> function, string name, int interationCount)
 		{
             ITester<long> tester = new MemoryTester();
             ITester<double> tester2 = new TimeTester();

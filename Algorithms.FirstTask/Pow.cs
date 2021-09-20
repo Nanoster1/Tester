@@ -13,7 +13,7 @@ namespace Algorithms.FirstTask
 		{
 			if (rank == 0) return 1;
 			double result = num;
-			for(int k = 0; k < rank; k++)
+			for(int k = 1; k < rank; k++)
 			{
 				result *= num;
 			}
