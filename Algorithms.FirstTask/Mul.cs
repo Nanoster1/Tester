@@ -1,6 +1,6 @@
 ﻿namespace Algorithms.FirstTask
 {
-    public static class Mov
+    public static class Mul
     {
         public static double Calculate(double[] vector)
         {

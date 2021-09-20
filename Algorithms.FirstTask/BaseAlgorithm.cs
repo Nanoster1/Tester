@@ -3,7 +3,7 @@ using Tester.Meta.Models;
 
 namespace Algorithms.FirstTask
 {
-    public static class BaseAlgortithm
+    public static class BaseAlgorithm
     {
         public static int Calculate(double[] vector)
         {
