@@ -31,6 +31,7 @@ namespace Tester.Meta.Testers
         {
             var time = new Stopwatch();
             var result = TimeSpan.Zero;
+            double[] localResults = new double[iterationNumber];
             algorithm.Invoke(); //First "long" start
             for (int i = 0; i < iterationNumber; i++)
             {
@@ -38,6 +39,7 @@ namespace Tester.Meta.Testers
                 algorithm.Invoke();
                 time.Stop();
                 result += time.Elapsed;
+                localResults[i] = time.Elapsed.TotalMilliseconds;
             }
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
             var generalResult = (result / iterationNumber).TotalMilliseconds;
