@@ -1,4 +1,5 @@
 using Algorithms.FirstTask;
+using Algorithms.SecondTask;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,32 @@ namespace Tester.XUnitTests
             yield return new object[] { (Func<double, int, double>)Pow.QuickPow };
             yield return new object[] { (Func<double, int, double>)Pow.QuickPowAlt };
             yield return new object[] { (Func<double, int, double>)Pow.Recursion };
+        }
+        [Theory]
+        [MemberData(nameof(GetMatrixAlgs))]
+        public void TestMatrixAlgorithm(Func<int[][], int[][], int[][]> matrixFunc)
+        {
+            var matrixA = new int[2][];
+			for (int i = 0; i < matrixA.Length; i++)
+			{
+                matrixA[i] = new int[] { 1, 2 };
+			}
+            var matrixB = new int[2][];
+            for (int i = 0; i < matrixA.Length; i++)
+            {
+                matrixB[i] = new int[] { 2, 1 };
+            }
+            var newMAtrix = matrixA.ToMatrix() * matrixB.ToMatrix();
+            var result = new int[2][];
+			for (int i = 0; i < result.Length; i++)
+			{
+                result[i] = new int[] { 6, 3 };
+			}   
+            Assert.Equal(newMAtrix.ToArray(), result);
+        }
+        public static IEnumerable<object[]> GetMatrixAlgs()
+        {
+            yield return new object[] { (Func<int[][],int[][],int[][]>)MatrixAlgorithm.MullMatrix };
         }
         [Fact]
         public void BaseAlgorithmTest()

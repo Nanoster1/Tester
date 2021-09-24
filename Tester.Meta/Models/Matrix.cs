@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Algorithms.SecondTask;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Tester.Meta.Models
 {
-	public class Matrix : IEnumerable<Vector>
+	public class Matrix : IEnumerable<int[]>
 	{
 		private Point _mesure;
-		private Vector[] _values;
+		private int[][] _values;
 		public Matrix(int columnSize, int rowSize)
 		{
 			CreateMatrix(new Point(columnSize, rowSize));
@@ -20,15 +21,29 @@ namespace Tester.Meta.Models
 		{
 			CreateMatrix(size);
 		}
+		public Matrix(IEnumerable<int[]> enumerable)
+		{
+			_values = enumerable.ToArray();
+			_mesure = new Point(enumerable.Count(),enumerable.First().Length);
+		}
 		private void CreateMatrix(Point size)
 		{
 			if (size.X < 1) size.X = 1;
 			_mesure = size;
-			_values = new Vector[size.X];
+			_values = new int[size.X][];
 			for (int i = 0; i < size.X; i++)
 			{
-				_values[i] = new Vector(size.Y);
+				_values[i] = new int[size.Y];
 			}
+		}
+		public int[] GetRows(int num)
+		{
+			int[] row = new int[Count.X];
+			for (int j = 0; j < Count.X; j++)
+			{
+				row[j] = _values[j][num];
+			}
+			return row;
 		}
 		public static Matrix RandomGenerate(int columnSize, int rowSize)
 		{
@@ -39,23 +54,26 @@ namespace Tester.Meta.Models
 			}
 			return matrix;
 		}
+		public static Matrix operator *(Matrix matrix1, Matrix matrix2)
+		{
+			return new Matrix(MatrixAlgorithm.MullMatrix(matrix1.ToArray(),matrix2.ToArray()));
+		}
 
 		public Point Count => _mesure;
 
 		public int[] this[int index]
 		{
 			get => _values[index].ToArray();
-			set => _values[index] = value.ToVector();
+			set => _values[index] = value;
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return _values.GetEnumerator();
 		}
-
-		IEnumerator<Vector> IEnumerable<Vector>.GetEnumerator()
+		public IEnumerator<int[]> GetEnumerator()
 		{
-			return ((IEnumerable<Vector>)_values).GetEnumerator();
+			return ((IEnumerable<int[]>)_values).GetEnumerator();
 		}
 	}
 }

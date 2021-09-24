@@ -1,4 +1,5 @@
 ﻿using Algorithms.FirstTask;
+using Algorithms.SecondTask;
 using System;
 using System.Linq;
 using Tester.Meta.Interfaces;
@@ -11,41 +12,25 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            //ITester<double> tester = new TimeTester();
-            //double x = 10.53;
-            //for (int i = 1; i <= 2000; i++)
-            //{
-            //    var vector = Vector.RandomGenerate(i).Select(x => Convert.ToDouble(x)).ToArray();
+            var matrixFunc = (Func<int[][], int[][], int[][]>)MatrixAlgorithm.MullMatrix;
+            var matrixA = new int[2][];
+            for (int i = 0; i < matrixA.Length; i++)
+            {
+                matrixA[i] = new int[] { 1, 2 };
+            }
+            var matrixB = new int[2][];
+            for (int i = 0; i < matrixA.Length; i++)
+            {
+                matrixB[i] = new int[] { 2, 1 };
+            }
+            var newMAtrix = matrixFunc.Invoke((matrixA), (matrixB));
+            var result = new int[2][];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new int[] { 6, 3 };
+            }
+            newMAtrix.ToArray();
 
-            //    tester.Test(() => BaseAlgorithm.Calculate(vector), 5, nameof(BaseAlgorithm));
-            //    tester.Test(() => Sum.Calculate(vector), 5, nameof(Sum));
-            //    tester.Test(() => Mul.Calculate(vector), 5, nameof(Mul));
-            //    tester.Test(() => Polynom.Calculate(vector), 5, nameof(Polynom));
-            //}
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
-            //tester.AllResults.Clear();
-
-            //for (int i = 1; i <= 2000; i++)
-            //{
-            //    var vector = Vector.RandomGenerate(i).Select(x => Convert.ToDouble(x)).ToArray();
-
-            //    tester.Test(() => VectorSorts.BubbleSort(vector), 5, nameof(VectorSorts.BubbleSort));
-            //    tester.Test(() => VectorSorts.InsertionSort(vector), 5, nameof(VectorSorts.InsertionSort));
-            //    tester.Test(() => VectorSorts.QuickSort(vector), 5, nameof(VectorSorts.QuickSort));
-            //    tester.Test(() => TimSort.Sort(vector), 5, nameof(TimSort));
-            //}
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
-            //tester.AllResults.Clear();
-
-            //for (int i = 1; i <= 2000; i++)
-            //{
-            //    tester.Test(() => Pow.Cycle(x, i), 5, nameof(Pow.Cycle));
-            //    tester.Test(() => Pow.Recursion(x, i), 5, nameof(Pow.Recursion));
-            //    tester.Test(() => Pow.QuickPow(x, i), 5, nameof(Pow.QuickPow));
-            //    tester.Test(() => Pow.QuickPowAlt(x, i), 5, nameof(Pow.QuickPowAlt));
-            //}
-
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
         }
     }
 }
