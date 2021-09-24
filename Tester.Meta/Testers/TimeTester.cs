@@ -43,7 +43,7 @@ namespace Tester.Meta.Testers
             }
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
             var generalResult = (result / iterationNumber).TotalMilliseconds;
-            TestResult<double> testResult = new(resultID, generalResult , name);
+            TestResult<double> testResult = new(resultID, generalResult , localResults, name);
             LastResult = testResult;
             lock (AllResults) 
             {

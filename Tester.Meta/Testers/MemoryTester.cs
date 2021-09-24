@@ -21,6 +21,7 @@ namespace Tester.Meta.Testers
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             long result = 0;
+            var localResults = new long[iterationNumber];
             for (int i = 0; i < iterationNumber; i++)
             {
                 var startMemory = GC.GetTotalMemory(false);
@@ -30,7 +31,7 @@ namespace Tester.Meta.Testers
             }
             result = result < 0 ? LastResult.Result : result /= iterationNumber;
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            TestResult<long> testResult = new(resultID, result, name);
+            TestResult<long> testResult = new(resultID, result,localResults, name);
             LastResult = testResult;
             lock (AllResults)
             {
