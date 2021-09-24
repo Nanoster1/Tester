@@ -20,18 +20,29 @@ namespace Tester.Meta.Testers
 
         public void Test(Action algorithm, int iterationNumber, string name)
         {
-            long result = 0;
+            long[] localResults = new long[iterationNumber];
+
             for (int i = 0; i < iterationNumber; i++)
             {
                 var startMemory = GC.GetTotalMemory(false);
+                GC.TryStartNoGCRegion(2097152);
                 algorithm.Invoke();
                 var endMemory = GC.GetTotalMemory(false);
-                result = result + endMemory - startMemory;
+                try { GC.EndNoGCRegion(); } catch { }
+
+                localResults[i] = endMemory - startMemory;
+                if (i > 0 && localResults[i] < 0)
+                    localResults[i] = localResults[i - 1];
             }
-            result = result < 0 ? LastResult.Result : result /= iterationNumber;
+
+            long result = localResults.Sum();
+            result = result < 0 ? 0 : result / iterationNumber;
+
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            TestResult<long> testResult = new(resultID, result, name);
+
+            TestResult<long> testResult = new(resultID, name, result, localResults);
             LastResult = testResult;
+
             lock (AllResults)
             {
                 AllResults.Add(testResult);

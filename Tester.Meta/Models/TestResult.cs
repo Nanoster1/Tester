@@ -8,12 +8,12 @@ namespace Tester.Meta.Models
 {
     public struct TestResult<TResult>
     {
-        public TestResult(int id, TResult result, TResult[] localResults, string name)
+        public TestResult(int id, string name, TResult result, TResult[] localResults)
         {
             ID = id;
+            AlgorithmName = name;
             Result = result;
             LocalResults = localResults;
-            AlgorithmName = name;
         }
         public string AlgorithmName { get; init; }
         public int ID { get; init; }

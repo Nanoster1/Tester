@@ -19,7 +19,7 @@ namespace Tester.Avalonia
             {
                 desktop.MainWindow = new MainWindow
                 {
-
+                    DataContext = new MainWindowViewModel(),
                 };
             }
 

@@ -30,25 +30,34 @@ namespace Tester.Meta.Testers
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
-            var result = TimeSpan.Zero;
-            double[] localResults = new double[iterationNumber];
             algorithm.Invoke(); //First "long" start
+            var localResults = new double[iterationNumber];
+            
             for (int i = 0; i < iterationNumber; i++)
             {
                 time.Restart();
                 algorithm.Invoke();
                 time.Stop();
-                result += time.Elapsed;
                 localResults[i] = time.Elapsed.TotalMilliseconds;
             }
+
+            var minResult = localResults.Min();
+            localResults = localResults
+                .Select(localResult => localResult > minResult * 2 ? minResult: localResult)
+                .ToArray();
+
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            var generalResult = (result / iterationNumber).TotalMilliseconds;
-            TestResult<double> testResult = new(resultID, generalResult , name);
+            var generalResult = localResults.Average();
+
+            TestResult<double> testResult = new(resultID, name, generalResult , localResults);
             LastResult = testResult;
+            
             lock (AllResults) 
             {
                 AllResults.Add(testResult); 
             }
         }
+
+
     }
 }

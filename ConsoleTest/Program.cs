@@ -17,35 +17,20 @@ namespace ConsoleTest
             //{
             //    var vector = Vector.RandomGenerate(i).Select(x => Convert.ToDouble(x)).ToArray();
 
-            //    tester.Test(() => BaseAlgorithm.Calculate(vector), 5, nameof(BaseAlgorithm));
-            //    tester.Test(() => Sum.Calculate(vector), 5, nameof(Sum));
-            //    tester.Test(() => Mul.Calculate(vector), 5, nameof(Mul));
-            //    tester.Test(() => Polynom.Calculate(vector), 5, nameof(Polynom));
-            //}
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
-            //tester.AllResults.Clear();
-
-            //for (int i = 1; i <= 2000; i++)
-            //{
-            //    var vector = Vector.RandomGenerate(i).Select(x => Convert.ToDouble(x)).ToArray();
-
-            //    tester.Test(() => VectorSorts.BubbleSort(vector), 5, nameof(VectorSorts.BubbleSort));
-            //    tester.Test(() => VectorSorts.InsertionSort(vector), 5, nameof(VectorSorts.InsertionSort));
-            //    tester.Test(() => VectorSorts.QuickSort(vector), 5, nameof(VectorSorts.QuickSort));
-            //    tester.Test(() => TimSort.Sort(vector), 5, nameof(TimSort));
-            //}
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
-            //tester.AllResults.Clear();
-
-            //for (int i = 1; i <= 2000; i++)
-            //{
-            //    tester.Test(() => Pow.Cycle(x, i), 5, nameof(Pow.Cycle));
-            //    tester.Test(() => Pow.Recursion(x, i), 5, nameof(Pow.Recursion));
-            //    tester.Test(() => Pow.QuickPow(x, i), 5, nameof(Pow.QuickPow));
-            //    tester.Test(() => Pow.QuickPowAlt(x, i), 5, nameof(Pow.QuickPowAlt));
-            //}
-
-            //tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
+                tester.Test(() => BaseAlgorithm.Calculate(vector), 5, nameof(BaseAlgorithm));
+                tester.Test(() => Sum.Calculate(vector), 5, nameof(Sum));
+                tester.Test(() => Mov.Calculate(vector), 5, nameof(Mov));
+                tester.Test(() => Polynom.Calculate(vector), 5, nameof(Polynom));
+                tester.Test(() => VectorSorts.BubbleSort(vector), 5, nameof(VectorSorts.BubbleSort));
+                tester.Test(() => VectorSorts.InsertionSort(vector), 5, nameof(VectorSorts.InsertionSort));
+                tester.Test(() => VectorSorts.QuickSort(vector), 5, nameof(VectorSorts.QuickSort));
+                tester.Test(() => TimSort.Sort(vector), 5, nameof(TimSort));
+                tester.Test(() => Pow.Cycle(x, i), 5, nameof(Pow.Cycle));
+                tester.Test(() => Pow.Recursion(x, i), 5, nameof(Pow.Recursion));
+                tester.Test(() => Pow.QuickPow(x, i), 5, nameof(Pow.QuickPow));
+                tester.Test(() => Pow.QuickPowAlt(x, i), 5, nameof(Pow.QuickPowAlt));
+            }
+            tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
         }
     }
 }

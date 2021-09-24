@@ -64,6 +64,7 @@ namespace Tester.Meta.Interfaces
                 chart.StyleManager.SetChartStyle(ePresetChartStyle.ScatterChartStyle6);
 
                 package.Save();
+
             }
         }
     }

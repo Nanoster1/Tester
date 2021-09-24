@@ -1,7 +1,4 @@
-﻿using Tester.Meta.Interfaces;
-using Tester.Meta.Models;
-
-namespace Algorithms.FirstTask
+﻿namespace Algorithms.FirstTask
 {
     public static class BaseAlgorithm
     {

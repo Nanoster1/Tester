@@ -1,7 +1,7 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Tester.Avalonia.Models;
 
 namespace Tester.Avalonia.Views
 {
@@ -13,13 +13,16 @@ namespace Tester.Avalonia.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
+            Canvas canvas = this.FindControl<Canvas>("Canvas"); 
+            SierpinskiTriangle triangle = new(canvas);
+            SierpinskiTriangleAlt triangleAlt = new(canvas);
+            triangle.DrawTriangle(new(triangle.Widht, triangle.Widht));
+            triangleAlt.DrawTriangle(new(triangle.Widht * 3, triangle.Widht));
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-       
     }
 }
