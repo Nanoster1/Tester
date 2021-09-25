@@ -8,9 +8,9 @@ namespace Tester.Meta.Models
 {
 	public static class MatrixExstention
 	{
-		public static Matrix ToMatrix(this int[][] enumerable)
+		public static Matrix<T> ToMatrix<T>(this IEnumerable<T> enumerable) where T :struct
 		{
-			return new Matrix(enumerable);
+			return new Matrix<T>(enumerable);
 		}
 	}
 }
