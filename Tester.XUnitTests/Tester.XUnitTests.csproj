@@ -24,10 +24,4 @@
     <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Algorithms.SecondTask">
-      <HintPath>..\Algorithms.SecondTask\bin\Debug\netcoreapp3.1\Algorithms.SecondTask.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

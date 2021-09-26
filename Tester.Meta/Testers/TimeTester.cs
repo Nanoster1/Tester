@@ -1,18 +1,9 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Models;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.Style;
 
 namespace Tester.Meta.Testers
 {
@@ -31,7 +22,7 @@ namespace Tester.Meta.Testers
         {
             var time = new Stopwatch();
             var result = TimeSpan.Zero;
-            double[] localResults = new double[iterationNumber];
+            var localResults = new double[iterationNumber];
             algorithm.Invoke(); //First "long" start
             for (int i = 0; i < iterationNumber; i++)
             {
