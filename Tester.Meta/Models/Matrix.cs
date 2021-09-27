@@ -153,7 +153,19 @@ namespace Tester.Meta.Models
         {
             return matrix * vector.Select(x => (double)x).ToArray();
         }
-        
+        public static double[,] RandomMatrix(int size)
+		{
+            var random = new Random();
+            double[,] matrix = new double[size,size];
+			for (int i = 0; i < size; i++)
+			{
+				for (int j = 0; j < size; j++)
+				{
+                    matrix[i,j] = random.Next(0, int.MaxValue);
+				}
+			}
+            return matrix;
+		}
         public override string ToString()
         {
             var @string = new StringBuilder();
@@ -185,5 +197,6 @@ namespace Tester.Meta.Models
         {
             return (IEnumerator<double>)_values.GetEnumerator();
         }
+
     }
 }

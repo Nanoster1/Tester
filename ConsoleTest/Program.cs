@@ -12,21 +12,16 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            Stopwatch timer = new();
-            var matrix4 = new int[,] { { 1, 2, 3 }, { 1, 2, 3 } };
-            var matrix5 = new int[,] { { 2, 1 }, { 2, 1 }, { 2, 1 } };
-            var matrix6 = MatrixMul.MulMatrix(matrix4, matrix5);
-            var source = new double[]{1, 2, 3, 1, 2, 3};
-            var matrix = new Matrix(source, 3, 2);
-            var row = matrix.GetRow(1);
-            var column = matrix.GetColumn(1);
-            var source2 = new double[]{2, 1, 2, 1, 2, 1};
-            var matrix2 = new Matrix(source2, 2, 3);
-            var matrix3 = matrix * matrix2;
-            timer.Restart();
-            var m = matrix3.ToArray();
-            timer.Stop();
-            var i = timer.Elapsed;
+           var a = BigTestMatrixAlgorithm((Func<Graph<uint>, Node<uint>, Node<uint>, uint>)GraphShortestPath.AlgortighmFloydWarshall);
+            Console.WriteLine(a);
+        }
+        static bool BigTestMatrixAlgorithm(Func<Graph<uint>, Node<uint>, Node<uint>, uint> function)
+		{
+            uint[] values = { 1, 2, 3, 4 };
+            int[] links = { 0, 1, 1, 2, 2, 3, 3, 0 };
+            var graph = Graph<uint>.MakeGraph<uint>(values, links);
+            var result = function.Invoke(graph, graph[0], graph[2]);
+            return 3 == (double)result;
         }
     }
 }
