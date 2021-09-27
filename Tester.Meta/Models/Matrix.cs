@@ -168,9 +168,9 @@ namespace Tester.Meta.Models
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Matrix) obj);
+            else if (ReferenceEquals(this, obj)) return true;
+            else if (obj.GetType() != this.GetType()) return false;
+            return obj.GetHashCode() == this.GetHashCode();
         }
         public override int GetHashCode()
         {

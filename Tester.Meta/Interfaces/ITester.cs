@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tester.Meta.Models;
 
 namespace Tester.Meta.Interfaces
@@ -30,7 +28,7 @@ namespace Tester.Meta.Interfaces
             {
                 var results = group.ToArray();
 
-                ExcelWorksheet ws = package.Workbook.Worksheets.FirstOrDefault(ws => ws.Name == results[0].AlgorithmName);
+                var ws = package.Workbook.Worksheets.FirstOrDefault(ws => ws.Name == results[0].AlgorithmName);
 
                 if (ws == null)
                 {
@@ -59,7 +57,7 @@ namespace Tester.Meta.Interfaces
                 if (actualCount < 3) actualCount = 3;
                 var serie = chart
                     .Series
-                    .Add(ws.Cells[$"B2:B{actualCount}"], ws.Cells[$"A2:A{actualCount}"]);
+                    .Add(ws.Cells[$"B2:B{actualCount + 1}"], ws.Cells[$"A2:A{actualCount + 1}"]);
 
                 chart.StyleManager.SetChartStyle(ePresetChartStyle.ScatterChartStyle6);
 
