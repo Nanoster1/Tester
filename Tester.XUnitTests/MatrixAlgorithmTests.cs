@@ -63,7 +63,7 @@ namespace Tester.XUnitTests
 		{
 			ITester<long> tester = new MemoryTester();
 			ITester<double> tester2 = new TimeTester();
-			for (int i = 0; i < 2000; i++)
+			for (int i = 0; i < 300; i++)
 			{
 				var matrixA = Matrix.RandomMatrix(i);
 				var matrixB = Matrix.RandomMatrix(i);

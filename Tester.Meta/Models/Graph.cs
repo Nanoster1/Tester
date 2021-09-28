@@ -77,7 +77,7 @@ namespace Tester.Meta.Models
 			{
 				values[i] = (uint)random.Next(1, 100);
 			}
-			var indexs = new int[random.Next(1, size*random.Next(1,5))];
+			var indexs = new int[values.Length * 2];
 			int lastIndex = 0;
 			for (int i = 0; i < indexs.Length; i++)
 			{
