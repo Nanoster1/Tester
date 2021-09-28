@@ -32,7 +32,7 @@ namespace Tester.XUnitTests
 		{
 			ITester<long> tester = new MemoryTester();
 			ITester<double> tester2 = new TimeTester();
-			for (int i = 0; i < 100; i++)
+			for (int i = 2; i < 300; i++)
 			{
 				var graph = Graph<uint>.GetRandomGraph(i);
 

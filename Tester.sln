@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester.Meta", "Tester.Meta\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester.XUnitTests", "Tester.XUnitTests\Tester.XUnitTests.csproj", "{68B26776-0091-4BA2-A99C-923B5E7B7E6A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.FirstTask", "Algorithms.FirstTask\Algorithms.FirstTask.csproj", "{3472C848-5B36-4B5A-901E-523F908A6A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{3472C848-5B36-4B5A-901E-523F908A6A72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{AF2037B0-E201-4359-B175-E13AA6D91071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{0B694A7D-3C6D-4431-B546-320F39E33205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{AF2037B0-E201-4359-B175-E13AA6D91071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF2037B0-E201-4359-B175-E13AA6D91071}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF2037B0-E201-4359-B175-E13AA6D91071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B694A7D-3C6D-4431-B546-320F39E33205}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B694A7D-3C6D-4431-B546-320F39E33205}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B694A7D-3C6D-4431-B546-320F39E33205}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B694A7D-3C6D-4431-B546-320F39E33205}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

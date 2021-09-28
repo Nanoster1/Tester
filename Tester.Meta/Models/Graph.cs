@@ -42,7 +42,7 @@ namespace Tester.Meta.Models
 		public static Graph<T> MakeGraph<T>(T[] value,int[] incidentNodes) where T: struct, IComparable<T>
 		{
 			var graph = new Graph<T>(incidentNodes.Max() + 1);
-			for (int i = 0; i < incidentNodes.Length - 1; i += 2)
+			for (int i = 0; i < incidentNodes.Length - 1; i += 2) // -1
 				graph.Connect(incidentNodes[i], incidentNodes[i + 1],value[i/2]);
 			return graph;
 		}
@@ -83,7 +83,7 @@ namespace Tester.Meta.Models
 			{
 				int index;
 				do
-					index = random.Next(0, size - 1);
+					index = random.Next(0, size);
 				while (lastIndex == index);
 				lastIndex = index;
 				indexs[i] = index;
