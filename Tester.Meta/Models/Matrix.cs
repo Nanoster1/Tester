@@ -79,10 +79,14 @@ namespace Tester.Meta.Models
                 return true;
             return false;
         }
+
         public static bool operator !=(Matrix matrix1, Matrix matrix2)
         {
-            return !(matrix1 == matrix2);
+            if (matrix1.Equals(matrix2))
+                return false;
+            return true;
         }
+
         public static Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.RowLengtn != matrix2.RowLengtn || matrix1.ColumnLength != matrix2.ColumnLength)

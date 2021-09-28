@@ -43,7 +43,7 @@ namespace Tester.XUnitTests
 			var matrixB = new Matrix(new double[] { 2, 1, 2, 1 }, 2, 2);		
 			var matrixC = new Matrix(new double[] { 2, 1, 2, 1 }, 2, 2);
 
-			Assert.False(matrixA != matrixB);
+			Assert.True(matrixA != matrixB);
 			Assert.True(matrixC==matrixB);
 		}
 		[Fact]
@@ -63,7 +63,7 @@ namespace Tester.XUnitTests
 		{
 			ITester<long> tester = new MemoryTester();
 			ITester<double> tester2 = new TimeTester();
-			for (int i = 0; i < 2000; i++)
+			for (int i = 0; i < 300; i++)
 			{
 				var matrixA = Matrix.RandomMatrix(i);
 				var matrixB = Matrix.RandomMatrix(i);
