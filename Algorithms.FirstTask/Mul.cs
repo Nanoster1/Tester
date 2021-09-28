@@ -1,4 +1,6 @@
-﻿namespace Algorithms.FirstTask
+﻿using Tester.Meta.Models;
+
+namespace Algorithms.FirstTask
 {
     public static class Mul
     {

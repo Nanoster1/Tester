@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="MatrixMul.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Tester.Meta">
+      <HintPath>..\Tester.Meta\bin\Debug\net5.0\Tester.Meta.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
