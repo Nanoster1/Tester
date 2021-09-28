@@ -1,18 +1,13 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tester.Meta.Interfaces;
-using Tester.Meta.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using Tester.Meta.Interfaces;
+using Tester.Meta.Models;
 
 namespace Tester.Meta.Testers
 {

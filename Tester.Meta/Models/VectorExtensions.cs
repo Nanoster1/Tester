@@ -7,7 +7,7 @@ using Tester.Meta.Models;
 
 namespace Tester.Meta.Models
 {
-    public static class VectorExtension
+    public static class VectorExtensions
     {
         public static Vector ToVector(this IEnumerable<int> enumerable)
         {
