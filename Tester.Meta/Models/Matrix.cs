@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Tester.Meta.Models
 {
@@ -107,18 +108,19 @@ namespace Tester.Meta.Models
         {
             if (matrix1.RowLengtn != matrix2.ColumnLength) throw new ArgumentException();
             var resultArray = new double[matrix1.ColumnLength * matrix2.RowLengtn];
-            for (int i = 0; i < matrix1.ColumnLength; i++)
-            {
-                for (int j = 0; j < matrix2.RowLengtn; j++)
+            Enumerable.Range(0, matrix1.ColumnLength).AsParallel()
+                .ForAll(i =>
                 {
-                    var result = 0d;
-                    for (int k = 0; k < matrix1.RowLengtn; k++)
+                    for (int j = 0; j < matrix2.RowLengtn; j++)
                     {
-                        result += matrix1[i, k] * matrix2[k, j];
+                        var result = 0d;
+                        for (int k = 0; k < matrix1.RowLengtn; k++)
+                        {
+                            result += matrix1[i, k] * matrix2[k, j];
+                        }
+                        resultArray[i * matrix1.RowLengtn + j] = result;
                     }
-                    resultArray[i * (matrix1.RowLengtn - 1) + j] = result;
-                }
-            }
+                });
             return new Matrix(resultArray, matrix1.ColumnLength, matrix2.RowLengtn);
         }
         public static Matrix operator *(Matrix matrix, double multiplier)
@@ -186,7 +188,7 @@ namespace Tester.Meta.Models
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(_values, RowLengtn, ColumnLength, Length);
+            return int.Parse(string.Join('0', _values.Select(x => (int)x)));
         }
 
         IEnumerator IEnumerable.GetEnumerator()

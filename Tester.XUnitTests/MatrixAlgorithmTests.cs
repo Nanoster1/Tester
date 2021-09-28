@@ -25,7 +25,7 @@ namespace Tester.XUnitTests
 			var matrixB = new Matrix(new double[] { 2, 1, 2, 1 }, 2, 2);
 			var matrix = matrixA + matrixB;
 			var result = new double[2, 2] { { 3, 3 }, { 3, 3 } };
-			Assert.Equal(matrix.ToArray(), result);
+			Assert.Equal(matrix.To2DArray(), result);
 		}
 		[Fact]
 		public void TestMatrixSubAlgorithm()
@@ -34,7 +34,7 @@ namespace Tester.XUnitTests
 			var matrixB = new Matrix(new double[] { 2, 1, 2, 1 }, 2, 2);
 			var matrix = matrixA - matrixB;
 			var result = new double[2, 2] { { 1, 2 }, { 1, 2 } };
-			Assert.Equal(matrix.ToArray(), result);
+			Assert.Equal(matrix.To2DArray(), result);
 		}
 		[Fact]
 		public void TestMatrixEqualsAlgorithm()
@@ -52,7 +52,7 @@ namespace Tester.XUnitTests
 			var matrixA = new Matrix(new double[] { 2, 2, 2, 2 }, 2, 2);
 			var matrix = matrixA * 5;
 			var result = new double[2, 2] { { 10, 10 }, { 10, 10 } };
-			Assert.Equal(matrix.ToArray(), result);
+			Assert.Equal(matrix.To2DArray(), result);
 		}
 		[Fact]
 		public void MatrixMulAlgTest()

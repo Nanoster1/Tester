@@ -12,18 +12,19 @@ namespace Algorithms.FirstTask
         {
             if (matrix1.GetLength(0) != matrix2.GetLength(1)) throw new Exception();
             var finalMatrix = new double[matrix1.GetLength(0), matrix2.GetLength(1)];
-            for (int i = 0; i < matrix1.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix2.GetLength(1); j++)
+            Enumerable.Range(0, matrix1.GetLength(0)).AsParallel()
+                .ForAll(i =>
                 {
-                    double result = 0;
-                    for (int k = 0; k < matrix1.GetLength(1); k++)
+                    for (int j = 0; j < matrix2.GetLength(1); j++)
                     {
-                        result += matrix1[i, k] * matrix2[k, j];
+                        var result = 0d;
+                        for (int k = 0; k < matrix1.GetLength(1); k++)
+                        {
+                            result += matrix1[i, k] * matrix2[k, j];
+                        }
+                        finalMatrix[i, j] = result;
                     }
-                    finalMatrix[i, j] = result;
-                }
-            }
+                });
             return finalMatrix;
         }
     }
