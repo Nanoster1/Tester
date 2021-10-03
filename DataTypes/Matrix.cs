@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tester.Meta.Models
+namespace Tester.DataTypes
 {
     public class Matrix: IEnumerable<double>
     {

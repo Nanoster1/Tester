@@ -2,8 +2,8 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Tester.DataTypes;
 using Tester.Meta.Interfaces;
-using Tester.Meta.Models;
 using Tester.Meta.Testers;
 
 namespace ConsoleTest
@@ -12,16 +12,13 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-           var a = BigTestMatrixAlgorithm((Func<Graph<uint>, Node<uint>, Node<uint>, uint>)GraphShortestPath.AlgortighmFloydWarshall);
-            Console.WriteLine(a);
-        }
-        static bool BigTestMatrixAlgorithm(Func<Graph<uint>, Node<uint>, Node<uint>, uint> function)
-		{
-            uint[] values = { 1, 2, 3, 4 };
-            int[] links = { 0, 1, 1, 2, 2, 3, 3, 0 };
-            var graph = Graph<uint>.MakeGraph<uint>(values, links);
-            var result = function.Invoke(graph, graph[0], graph[2]);
-            return 3 == (double)result;
+            var tester = new TimeTester();
+            for (int i = 1; i < 2001; i++)
+            {
+                var vector = Vector.RandomGenerate(i);
+                tester.Test((() => VectorSorts.BubbleSort(vector)), 5, nameof(VectorSorts.BubbleSort));
+            }
+            tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TimeTester");
         }
     }
 }

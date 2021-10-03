@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Printing;
 using System.Linq;
 
-namespace Tester.Meta.Models
+namespace Tester.DataTypes
 {
 	public static class MatrixExstentions
 	{

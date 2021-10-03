@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tester.Meta.Models;
 
-namespace Tester.Meta.Models
+namespace Tester.DataTypes
 {
     public static class VectorExtensions
     {

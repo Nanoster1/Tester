@@ -25,7 +25,6 @@ namespace Tester.Meta.Testers
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
-            var result = TimeSpan.Zero;
             var localResults = new double[iterationNumber];
             algorithm.Invoke(); //First "long" start
             for (int i = 0; i < iterationNumber; i++)
@@ -33,11 +32,10 @@ namespace Tester.Meta.Testers
                 time.Restart();
                 algorithm.Invoke();
                 time.Stop();
-                result += time.Elapsed;
                 localResults[i] = time.Elapsed.TotalMilliseconds;
             }
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            var generalResult = (result / iterationNumber).TotalMilliseconds;
+            var generalResult = localResults.Average();
             TestResult<double> testResult = new(resultID, name, generalResult, localResults);
             LastResult = testResult;
             lock (AllResults) 
@@ -45,56 +43,59 @@ namespace Tester.Meta.Testers
                 AllResults.Add(testResult); 
             }
         }
+
+        private double[] DeleteEmissions(double[] localResults)
+        {
+            var q1Index = (localResults.Length + 1) / 4d - 1;
+            var q3Index = 3 * (localResults.Length + 1) / 4d - 1;
+            var q1 = 
+                localResults[(int) q1Index] + 
+                (q1Index - (int) q1Index) * (localResults[(int) q1Index] - localResults[((int) q1Index) + 1]);
+            var q3 = localResults[(int) q3Index] + 
+                 (q3Index - (int) q3Index) * (localResults[(int) q3Index] - localResults[((int) q3Index) + 1]);
+            var mp = q3 - q1;
+            var lowerBorder = q1 - 1.5 * mp;
+            var upperBorder = q3 + 1.5 * mp;
+            var newLocalResults = localResults.ToList();
+            for (int i = 0; i < localResults.Length; i++)
+            {
+                if (localResults[i] <= lowerBorder || localResults[i] >= upperBorder)
+                    newLocalResults.Remove(localResults[i]);
+            }
+
+            return newLocalResults.ToArray();
+        }
+        private TestResult<double>[] DeleteEmissions(TestResult<double>[] localResults)
+        {
+            var q1Index = (localResults.Length + 1) / 4d - 1;
+            var q3Index = 3 * (localResults.Length + 1) / 4d - 1;
+            var q1 = 
+                localResults[(int) q1Index].Result + 
+                (q1Index - (int) q1Index) * (localResults[(int) q1Index].Result - localResults[((int) q1Index) + 1].Result);
+            var q3 = localResults[(int) q3Index].Result + 
+                     (q3Index - (int) q3Index) * (localResults[(int) q3Index].Result - localResults[((int) q3Index) + 1].Result);
+            var mp = q3 - q1;
+            var lowerBorder = q1 - 1.5 * mp;
+            var upperBorder = q3 + 1.5 * mp;
+            var newLocalResults = localResults.ToList();
+            for (int i = 0; i < localResults.Length; i++)
+            {
+                if (localResults[i].Result <= lowerBorder || localResults[i].Result >= upperBorder)
+                    newLocalResults.Remove(localResults[i]);
+            }
+
+            return newLocalResults.ToArray();
+        }
         
         public void SaveAsExcel(string path, string name)
         {
             path = Path.Combine(path, name + ".xlsx");
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            using ExcelPackage package = new(new FileInfo(path));
-
+            FileInfo file = new(path);
             var groupedResults = AllResults.GroupBy(x => x.AlgorithmName);
 
             foreach (var group in groupedResults)
             {
-                var results = group.ToArray();
-
-                var ws = package.Workbook.Worksheets.FirstOrDefault(ws => ws.Name == results[0].AlgorithmName);
-
-                if (ws == null)
-                {
-                    ws = package.Workbook.Worksheets.Add(results[0].AlgorithmName);
-                }
-                else { ws.Cells.Clear(); ws.Drawings.Clear(); }
-
-                ws.Cells[1, 1].Value = "ID";
-                ws.Cells[1, 2].Value = "Time";
-
-                for (int i = 2; i <= results.Length + 1; i++)
-                {
-                    ws.Cells[i, 1].Value = i - 1;
-                    ws.Cells[i, 2].Value = results[i - 2].Result;
-                }
-
-                var range1 = ws.Cells[$"A1, B{results.Length + 1}"];
-
-                var chart = ws.Drawings.AddChart("FindingsChart", eChartType.XYScatterLinesNoMarkers);
-
-                chart.Title.Text = results[0].AlgorithmName;
-                chart.SetPosition(7, 0, 5, 0);
-                chart.SetSize(800, 400);
-
-                var actualCount = results.Length;
-                if (actualCount < 3) actualCount = 3;
-                var serie = chart
-                    .Series
-                    .Add(ws.Cells[$"B2:B{actualCount + 1}"], ws.Cells[$"A2:A{actualCount + 1}"]);
-
-                chart.XAxis.AddTitle("Time");
-                chart.YAxis.AddTitle("Complexity of input data");
-                chart.StyleManager.SetChartStyle(ePresetChartStyle.ScatterChartStyle6);
-    
-                package.Save();
+                SaveManager.SaveTable(file, DeleteEmissions(group.ToArray()), "ID (n)", "Time (Milliseconds)");
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tester.Meta.Models
+namespace Tester.DataTypes
 {
 	public class Vector: IEnumerable<int>
 	{
@@ -38,11 +38,11 @@ namespace Tester.Meta.Models
 			return vector1.Concat(vector2).ToVector();
         }
 
-		public static Vector RandomGenerate(int measure)
+		public static double[] RandomGenerate(int measure)
         {
 			Random random = new();
-			Vector vector = new(measure);
-			for (int i = 0; i < vector.Count; i++)
+			var vector = new double[measure];
+			for (int i = 0; i < vector.Length; i++)
             {
 				vector[i] = random.Next();
             }
