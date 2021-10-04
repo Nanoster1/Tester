@@ -1,5 +1,6 @@
 ﻿namespace SlavaAlgorithms
 
+open System.Linq
 module Fibonachi =
     let LazyAlg num = 
         seq{
@@ -17,4 +18,17 @@ module Fibonachi =
                 num <- saveNum
                 yield nextnum
             }        
+module Permutations = 
+    let FactorialAlg(arr:seq<'a>) = 
         
+        let rec getPermutations(arr:seq<'a>):seq<'a> =
+            for y = 0 to arr.Count()-1 do
+                let el = (Seq.take y arr).First()
+                let newArr = arr |> Seq.filter(fun x-> x <> el)
+                let newRes = getPermutations(newArr)
+                let dec = [el].Concat(newRes)
+                dec
+                    
+            Seq.empty    
+        getPermutations(arr)   
+           
