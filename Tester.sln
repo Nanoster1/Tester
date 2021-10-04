@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Al
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{AF2037B0-E201-4359-B175-E13AA6D91071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{0B694A7D-3C6D-4431-B546-320F39E33205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTypes", "DataTypes\DataTypes.csproj", "{0B694A7D-3C6D-4431-B546-320F39E33205}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SlavaAlgorithms", "SlavaAlgorithms\SlavaAlgorithms.fsproj", "{A23F2EC0-57AC-4066-941F-DD0FCDBC0DD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0B694A7D-3C6D-4431-B546-320F39E33205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B694A7D-3C6D-4431-B546-320F39E33205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B694A7D-3C6D-4431-B546-320F39E33205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A23F2EC0-57AC-4066-941F-DD0FCDBC0DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A23F2EC0-57AC-4066-941F-DD0FCDBC0DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A23F2EC0-57AC-4066-941F-DD0FCDBC0DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A23F2EC0-57AC-4066-941F-DD0FCDBC0DD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
