@@ -11,7 +11,7 @@ namespace Algorithms.FirstTask
             double result = 0;
             for (int k = 0; k < vector.Length; k++)
             {
-                result += k * Pow.QuickPow(x, k);
+                result += vector[k] * Pow.QuickPow(x, k);
             }
             return result;
         }

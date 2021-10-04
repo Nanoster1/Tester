@@ -9,23 +9,16 @@ namespace Algorithms.FirstTask
     
     public static class BinarySearch
     {
-        public static int [] Arr { get; set; }
-        private static int Num { get; set; }
-        public static void InputData(int[] arr, int num)
-        {
-            Arr = arr;
-            Num = num;
-        }
-        public static int Search()
+        public static int Search(int[] arr, int num)
         {
             int lowIndex = 0;
-            int highIndex = Arr.Length - 1;
+            int highIndex = arr.Length - 1;
             while (lowIndex <= highIndex)
             {
                 int middle = lowIndex + (highIndex - lowIndex) / 2;
-                if (Num < Arr[middle])
+                if (num < arr[middle])
                     highIndex = middle - 1;
-                if (Num > Arr[middle])
+                if (num > arr[middle])
                     lowIndex = middle + 1;
                 else
                     return middle + 1;

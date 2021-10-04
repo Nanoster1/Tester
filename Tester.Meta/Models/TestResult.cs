@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tester.Meta.Models
 {
-    public struct TestResult<TResult>
+    public record TestResult<TResult>
     {
         public TestResult(int id, string name, TResult result, TResult[] localResults)
         {

@@ -1,5 +1,6 @@
 ﻿using Algorithms.FirstTask;
 using System;
+using Tester.DataTypes;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Models;
 using Tester.Meta.Testers;

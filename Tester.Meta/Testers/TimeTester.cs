@@ -15,7 +15,6 @@ namespace Tester.Meta.Testers
     {
         public TimeTester()
         {
-            LastResult = new();
             AllResults = new List<TestResult<double>>();
         }
 
@@ -35,7 +34,7 @@ namespace Tester.Meta.Testers
                 localResults[i] = time.Elapsed.TotalMilliseconds;
             }
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            var generalResult = localResults.Average();
+            var generalResult = CalculateAverage(localResults.OrderBy(x => x).ToArray());
             TestResult<double> testResult = new(resultID, name, generalResult, localResults);
             LastResult = testResult;
             lock (AllResults) 
@@ -44,49 +43,33 @@ namespace Tester.Meta.Testers
             }
         }
 
-        private double[] DeleteEmissions(double[] localResults)
+        private double CalculateAverage(double[] localResults)
         {
-            var q1Index = (localResults.Length + 1) / 4d - 1;
-            var q3Index = 3 * (localResults.Length + 1) / 4d - 1;
-            var q1 = 
-                localResults[(int) q1Index] + 
-                (q1Index - (int) q1Index) * (localResults[(int) q1Index] - localResults[((int) q1Index) + 1]);
-            var q3 = localResults[(int) q3Index] + 
-                 (q3Index - (int) q3Index) * (localResults[(int) q3Index] - localResults[((int) q3Index) + 1]);
-            var mp = q3 - q1;
-            var lowerBorder = q1 - 1.5 * mp;
-            var upperBorder = q3 + 1.5 * mp;
-            var newLocalResults = localResults.ToList();
+            var q1 = Percentile(localResults, 1);
+            var q2 = Percentile(localResults, 2);
             for (int i = 0; i < localResults.Length; i++)
             {
-                if (localResults[i] <= lowerBorder || localResults[i] >= upperBorder)
-                    newLocalResults.Remove(localResults[i]);
+                if (localResults[i] < q1)
+                    localResults[i] = q1;
+                else if (localResults[i] > q2)
+                    localResults[i] = q2;
             }
-
-            return newLocalResults.ToArray();
+            
+            return localResults.Average();
         }
-        private TestResult<double>[] DeleteEmissions(TestResult<double>[] localResults)
+        public double Percentile(double[] sequence, double num)
         {
-            var q1Index = (localResults.Length + 1) / 4d - 1;
-            var q3Index = 3 * (localResults.Length + 1) / 4d - 1;
-            var q1 = 
-                localResults[(int) q1Index].Result + 
-                (q1Index - (int) q1Index) * (localResults[(int) q1Index].Result - localResults[((int) q1Index) + 1].Result);
-            var q3 = localResults[(int) q3Index].Result + 
-                     (q3Index - (int) q3Index) * (localResults[(int) q3Index].Result - localResults[((int) q3Index) + 1].Result);
-            var mp = q3 - q1;
-            var lowerBorder = q1 - 1.5 * mp;
-            var upperBorder = q3 + 1.5 * mp;
-            var newLocalResults = localResults.ToList();
-            for (int i = 0; i < localResults.Length; i++)
+            int N = sequence.Length;
+            double n = (N + 1) * num / 4;
+            if (n == 1d) return sequence[0];
+            else if (n == N) return sequence[N - 1];
+            else
             {
-                if (localResults[i].Result <= lowerBorder || localResults[i].Result >= upperBorder)
-                    newLocalResults.Remove(localResults[i]);
+                int k = (int)n;
+                double d = n - k;
+                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
             }
-
-            return newLocalResults.ToArray();
         }
-        
         public void SaveAsExcel(string path, string name)
         {
             path = Path.Combine(path, name + ".xlsx");
@@ -95,7 +78,7 @@ namespace Tester.Meta.Testers
 
             foreach (var group in groupedResults)
             {
-                SaveManager.SaveTable(file, DeleteEmissions(group.ToArray()), "ID (n)", "Time (Milliseconds)");
+                SaveManager.SaveTable(file, group.ToArray(), "ID (n)", "Time (Milliseconds)");
             }
         }
     }

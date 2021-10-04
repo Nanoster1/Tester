@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace Algorithms.FirstTask
 {
-    class MergeSort
+    public class MergeSort
     {
-        public static int[] Sort(int[] arr)
+        public static double[] Sort(double[] arr)
         {
             if (arr.Length > 1)
             {
-                int[] left = new int[arr.Length / 2];
-                int[] right = new int[arr.Length - left.Length];
+                var left = new double[arr.Length / 2];
+                var right = new double[arr.Length - left.Length];
                 for (int i = 0; i < left.Length; i++)
                 {
                     left[i] = arr[i];
@@ -34,9 +34,9 @@ namespace ConsoleApp1
                 return arr;
             }
         }
-        public static int[] Merge(int[] left, int[] right)
+        private static double[] Merge(double[] left, double[] right)
         {
-            int[] result = new int[left.Length + right.Length];
+            var result = new double[left.Length + right.Length];
             int i = 0, j = 0;
             for (int k = 0; k < result.Length; k++)
             {

@@ -2,8 +2,8 @@ using Algorithms.FirstTask;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tester.DataTypes;
 using Tester.Meta.Interfaces;
-using Tester.Meta.Models;
 using Tester.Meta.Testers;
 using Xunit;
 
@@ -74,9 +74,9 @@ namespace Tester.XUnitTests
 		{
             ITester<long> tester = new MemoryTester();
             ITester<double> tester2 = new TimeTester();
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 2001; i++)
             {
-                var vector = Vector.RandomGenerate(i).Select(x => Convert.ToDouble(x)).ToArray();
+                var vector = Vector.RandomGenerate(i);
                 tester.Test(() => function.Invoke(vector), interationCount, name);
                 tester2.Test(() => function.Invoke(vector), interationCount, name);
             }

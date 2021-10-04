@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace Algorithms.FirstTask
 {
-    class Fibonacci
+    public class Fibonacci
     { 
         public static int FibRec(int n)
         {
