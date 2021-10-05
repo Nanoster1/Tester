@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algorithms.FirstTask.FirstTask
 {
-    class Levenshtein
+    public class Levenshtein
     {
         public static int LevenshteinDistance(string first, string second)
         {

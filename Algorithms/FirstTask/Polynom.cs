@@ -6,7 +6,7 @@ namespace Algorithms.FirstTask
 {
     public static class Polynom
     {
-        public static double Calculate(double[] vector, float x)
+        public static double Calculate(double[] vector, double x)
         {
             double result = 0;
             for (int k = 0; k < vector.Length; k++)

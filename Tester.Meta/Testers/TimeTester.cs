@@ -20,12 +20,12 @@ namespace Tester.Meta.Testers
 
         public TestResult<double> LastResult { get; protected set; }
         public IList<TestResult<double>> AllResults { get; protected set; }
+        public bool EmissionsEnabled { get; set; } = true;
 
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
             var localResults = new double[iterationNumber];
-            algorithm.Invoke(); //First "long" start
             for (int i = 0; i < iterationNumber; i++)
             {
                 time.Restart();
@@ -34,8 +34,8 @@ namespace Tester.Meta.Testers
                 localResults[i] = time.Elapsed.TotalMilliseconds;
             }
             var resultID = AllResults.Count(x => x.AlgorithmName == name) + 1;
-            var generalResult = CalculateAverage(localResults.OrderBy(x => x).ToArray());
-            TestResult<double> testResult = new(resultID, name, generalResult, localResults);
+            var generalResult = localResults.Min();
+            var testResult = new TestResult<double>(resultID, name, generalResult, localResults);
             LastResult = testResult;
             lock (AllResults) 
             {
@@ -43,33 +43,15 @@ namespace Tester.Meta.Testers
             }
         }
 
-        private double CalculateAverage(double[] localResults)
+        private void DeleteEmissions(TestResult<double>[] results)
         {
-            var q1 = Percentile(localResults, 1);
-            var q2 = Percentile(localResults, 2);
-            for (int i = 0; i < localResults.Length; i++)
+            for (int i = results.Length - 1; i > 0; i--)
             {
-                if (localResults[i] < q1)
-                    localResults[i] = q1;
-                else if (localResults[i] > q2)
-                    localResults[i] = q2;
-            }
-            
-            return localResults.Average();
-        }
-        public double Percentile(double[] sequence, double num)
-        {
-            int N = sequence.Length;
-            double n = (N + 1) * num / 4;
-            if (n == 1d) return sequence[0];
-            else if (n == N) return sequence[N - 1];
-            else
-            {
-                int k = (int)n;
-                double d = n - k;
-                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+                if (results[i].Result < results[i - 1].Result)
+                    results[i - 1] = results[i] with {ID = results[i - 1].ID};
             }
         }
+        
         public void SaveAsExcel(string path, string name)
         {
             path = Path.Combine(path, name + ".xlsx");
@@ -78,7 +60,9 @@ namespace Tester.Meta.Testers
 
             foreach (var group in groupedResults)
             {
-                SaveManager.SaveTable(file, group.ToArray(), "ID (n)", "Time (Milliseconds)");
+                var groupAr = group.ToArray();
+                if (!EmissionsEnabled) DeleteEmissions(groupAr);
+                SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
             }
         }
     }
