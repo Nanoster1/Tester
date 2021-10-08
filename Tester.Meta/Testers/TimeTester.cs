@@ -20,8 +20,7 @@ namespace Tester.Meta.Testers
 
         public TestResult<double> LastResult { get; protected set; }
         public IList<TestResult<double>> AllResults { get; protected set; }
-        public bool EmissionsEnabled { get; set; } = true;
-
+        public bool EmissionsEnabled { get; set; } = false;
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();

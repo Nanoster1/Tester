@@ -17,12 +17,14 @@ namespace ConsoleTest
         {
             var tester = new TimeTester();
             var tester1 = new MemoryTester();
-            var num = Fibonachi.LazyAlg(2);
 
-            for (int i = 1; i < 2000; i++)
+            for (int i = 2; i < 300; i++)
 			{
-                tester.Test(() => Fibonachi.LazyAlg(i), 5, nameof(Fibonachi.LazyAlg));
-                tester1.Test(() => Fibonachi.LazyAlg(i), 5, nameof(Fibonachi.LazyAlg));
+                var graph = Graph<uint>.GetRandomGraph(i);
+                var node = graph.Nodes.First();
+                var node2 = graph.Nodes.Last();
+                tester.Test(() => GraphShortestPath.AlgortighmFloydWarshall(graph,node,node2), 5, nameof(Fibonachi.LazyAlg));
+                tester1.Test(() => GraphShortestPath.AlgortighmFloydWarshall(graph, node, node2), 5, nameof(Fibonachi.LazyAlg));
             }
             tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(TimeTester));
             tester.AllResults.Clear();
