@@ -43,7 +43,7 @@ namespace Tester.Meta.Testers
             }
         }
 
-        public void SaveAsExcel(string path, string name)
+        public void SaveAsExcel(string path, string name, bool EnableEmissions = true)
         {
             path = Path.Combine(path, name + ".xlsx");
             FileInfo file = new(path);

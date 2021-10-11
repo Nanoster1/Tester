@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.Style;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Models;
 
@@ -20,7 +17,7 @@ namespace Tester.Meta.Testers
 
         public TestResult<double> LastResult { get; protected set; }
         public IList<TestResult<double>> AllResults { get; protected set; }
-        public bool EmissionsEnabled { get; set; } = false;
+
         public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
@@ -41,17 +38,8 @@ namespace Tester.Meta.Testers
                 AllResults.Add(testResult); 
             }
         }
-
-        private void DeleteEmissions(TestResult<double>[] results)
-        {
-            for (int i = results.Length - 1; i > 0; i--)
-            {
-                if (results[i].Result < results[i - 1].Result)
-                    results[i - 1] = results[i] with {ID = results[i - 1].ID};
-            }
-        }
         
-        public void SaveAsExcel(string path, string name)
+        public void SaveAsExcel(string path, string name, bool EmissionsEnabled = true)
         {
             path = Path.Combine(path, name + ".xlsx");
             FileInfo file = new(path);
@@ -60,7 +48,7 @@ namespace Tester.Meta.Testers
             foreach (var group in groupedResults)
             {
                 var groupAr = group.ToArray();
-                if (!EmissionsEnabled) DeleteEmissions(groupAr);
+                if (!EmissionsEnabled) Services.DeleteEmissions(groupAr);
                 SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
             }
         }
