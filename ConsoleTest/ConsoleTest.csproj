@@ -6,16 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
-    <ProjectReference Include="..\DataTypes\DataTypes.csproj" />
-    <ProjectReference Include="..\SlavaAlgorithms\SlavaAlgorithms.fsproj" />
-    <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="SlavaAlgorithms">
       <HintPath>..\SlavaAlgorithms\bin\Debug\netstandard2.0\SlavaAlgorithms.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tester.Meta\Tester.Meta.csproj" />
   </ItemGroup>
 
 </Project>
