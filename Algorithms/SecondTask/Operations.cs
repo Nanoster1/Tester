@@ -2,6 +2,6 @@ namespace Algorithms.SecondTask
 {
     public enum Operations
     {
-        Add, Remove, Peek, IsEmpty, Print
+        Add = 1, Remove, Peek, IsEmpty, Print
     }
 }

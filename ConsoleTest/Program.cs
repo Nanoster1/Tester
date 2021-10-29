@@ -1,5 +1,4 @@
-﻿using System;
-using Algorithms.SecondTask;
+﻿using Algorithms.FirstTask.SecondTask;
 
 
 namespace ConsoleApp1
@@ -8,15 +7,16 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Queue<dynamic> stack = new();
-            stack.Enqueue(1);
-            Console.WriteLine(stack);
-            stack.Enqueue(2);
-            Console.WriteLine(stack);
-            stack.Dequeue();
-            Console.WriteLine(stack);
-            stack.Dequeue();
-            Console.WriteLine(stack.IsEmpty);
+            FileWorker.ParseFile();
+            //Queue<dynamic> stack = new();
+            //stack.Enqueue(1);
+            //Console.WriteLine(stack);
+            //stack.Enqueue(2);
+            //Console.WriteLine(stack);
+            //stack.Dequeue();
+            //Console.WriteLine(stack);
+            //stack.Dequeue();
+            //Console.WriteLine(stack.IsEmpty);
         }
     }
 }

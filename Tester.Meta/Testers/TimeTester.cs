@@ -45,12 +45,12 @@ namespace Tester.Meta.Testers
             FileInfo file = new(path);
             var groupedResults = AllResults.GroupBy(x => x.AlgorithmName);
 
-            foreach (var group in groupedResults)
-            {
-                var groupAr = group.ToArray();
-                if (!EmissionsEnabled) Services.DeleteEmissions(groupAr);
-                SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
-            }
+            //foreach (var group in groupedResults)
+            //{
+            //    var groupAr = group.ToArray();
+            //    if (!EmissionsEnabled) Services.DeleteEmissions(groupAr);
+            //    SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
+            //}
         }
     }
 }
