@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,7 +11,7 @@ namespace Algorithms.SecondTask
         
         public int Count { get; private set; } = 0;
         public bool IsEmpty => Count == 0;
-        public T Peek => _first.Value;
+        public T Peek => _last.Value;
         
         public void Enqueue(T value)
         {
@@ -23,10 +24,10 @@ namespace Algorithms.SecondTask
         
         public T Dequeue()
         {
-            var element = _first;
+            var value = _first.Value ?? throw new Exception("Queue is empty");
             _first = _first.NextElement;
             Count--;
-            return element.Value;
+            return value;
         }
         
         public IEnumerator<T> GetEnumerator()

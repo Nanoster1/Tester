@@ -8,7 +8,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Queue<int> stack = new();
+            Queue<dynamic> stack = new();
             stack.Enqueue(1);
             Console.WriteLine(stack);
             stack.Enqueue(2);
