@@ -26,6 +26,7 @@ namespace Algorithms.SecondTask
         {
             var value = _first.Value ?? throw new Exception("Queue is empty");
             _first = _first.NextElement;
+            if (_first is null) _last = null;
             Count--;
             return value;
         }
