@@ -11,8 +11,10 @@ namespace Algorithms.FirstTask.SecondTask
 {
     public class CommandsManger
     {
-        public static CommandsManger Instance = new CommandsManger();
+        public static CommandsManger Instance = new();
 
+        public Dictionary<string, ICommandStruct<object>> Variables { get; } = new(); 
+        
         public async Task<List<CommandsElement<object>>> ParseTextAsync(string[] text)
         {
             return await Task.Run(() => ParseText(text));
@@ -26,7 +28,7 @@ namespace Algorithms.FirstTask.SecondTask
                 var parts = task.Split(':');
                 var name = parts[0];
                 var commands = parts[1].Trim().Split(' ');
-                var operations = new List<Operations>();
+                var operations = new List<string>();
                 var args = new System.Collections.Generic.Queue<object>();
                 foreach (var command in commands)
                 {
@@ -35,7 +37,7 @@ namespace Algorithms.FirstTask.SecondTask
                         args.Enqueue(
                             int.TryParse(commandParts[1], out var num) ? num : commandParts[1]
                             );
-                    operations.Add((Operations)int.Parse(commandParts[0]));
+                    operations.Add(((Operations)int.Parse(commandParts[0])).ToString());
                 }
                 var element = new CommandsElement<object>()
                 {
@@ -49,22 +51,20 @@ namespace Algorithms.FirstTask.SecondTask
             return result;
         }
 
-        public async Task<List<object>> ActivateCommandsAsync(List<CommandsElement<object>> commandsElements,
-            List<ICommandStruct<object>> structs)
+        public async Task<List<object>> ActivateCommandsAsync(List<CommandsElement<object>> commandsElements)
         {
-            return await Task.Run(() => ActivateCommands(commandsElements, structs));
+            return await Task.Run(() => ActivateCommands(commandsElements));
         }
 
-        public List<object> ActivateCommands(List<CommandsElement<object>> commandsElements, List<ICommandStruct<object>> structs)
+        public List<object> ActivateCommands(List<CommandsElement<object>> commandsElements)
         {
             var results = new List<object>();
             foreach (var element in commandsElements)
             {
-                var currentStruct = structs.First(x => 
-                    string.Compare(x.Name, element.Name, StringComparison.Ordinal) == 0);
+                var currentStruct = Variables[element.Name];
                 foreach (var operation in element.Operations)
                 {
-                    var op = currentStruct.GetType().GetMethod(operation.ToString() + "Command");
+                    var op = currentStruct.GetType().GetMethod(operation + "Command");
                     if (op is null) throw new NullReferenceException();
                     var paramsCount = op.GetParameters().Length;
                     var parameters = new List<object>();
