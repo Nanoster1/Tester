@@ -9,9 +9,15 @@ using System.Reflection;
 
 namespace Algorithms.FirstTask.SecondTask
 {
-    public static class CommandsManger
+    public class CommandsManger
     {
-        public static List<CommandsElement<object>> ParseText(string[] text)
+        public static CommandsManger Instance = new CommandsManger();
+
+        public async Task<List<CommandsElement<object>>> ParseTextAsync(string[] text)
+        {
+            return await Task.Run(() => ParseText(text));
+        }
+        public List<CommandsElement<object>> ParseText(string[] text)
         { //Queue1: 1,24 3 5 3 2 1,star 5;
             var result = new List<CommandsElement<object>>();
             var tasks = string.Join("", text).Split(';').Where(x => x != "");
@@ -33,7 +39,7 @@ namespace Algorithms.FirstTask.SecondTask
                 }
                 var element = new CommandsElement<object>()
                 {
-                    Name = name,
+                    Name = name.Trim(new char[] { ' ', '\n' }),
                     Arguments = args,
                     Operations = operations
                 };
@@ -43,12 +49,19 @@ namespace Algorithms.FirstTask.SecondTask
             return result;
         }
 
-        public static List<object> ActivateCommands(List<CommandsElement<object>> commandsElements, List<CommandStruct<object>> structs)
+        public async Task<List<object>> ActivateCommandsAsync(List<CommandsElement<object>> commandsElements,
+            List<ICommandStruct<object>> structs)
+        {
+            return await Task.Run(() => ActivateCommands(commandsElements, structs));
+        }
+
+        public List<object> ActivateCommands(List<CommandsElement<object>> commandsElements, List<ICommandStruct<object>> structs)
         {
             var results = new List<object>();
             foreach (var element in commandsElements)
             {
-                var currentStruct = structs.First(x => x.Name == element.Name);
+                var currentStruct = structs.First(x => 
+                    string.Compare(x.Name, element.Name, StringComparison.Ordinal) == 0);
                 foreach (var operation in element.Operations)
                 {
                     var op = currentStruct.GetType().GetMethod(operation.ToString() + "Command");

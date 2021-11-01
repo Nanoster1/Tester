@@ -1,16 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Algorithms.FirstTask.SecondTask
 {
-    public class CommandStruct<T>
+    public class CommandStruct<T>: ICommandStruct<T>
     {
-        private IEnumerable<T> _dataStruct;
+        public object DataStruct { get; }
         public event Action<string> PrintActivate = (string value) => { };
         
-        public CommandStruct(IEnumerable<T> dataStruct, string name, Action<string> printAction = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStruct">Data struct</param>
+        /// <param name="name">Data struct's name</param>
+        /// <param name="type">Data struct's type</param>
+        /// <param name="printAction">Method for subscribe on the print event</param>
+        public CommandStruct(object dataStruct, string name,Type type = null, Action<string> printAction = null)
         {
-            _dataStruct = dataStruct;
+            DataStruct = dataStruct;
             Name = name;
             if (printAction is not null) PrintActivate += printAction;
         }
@@ -19,7 +27,7 @@ namespace Algorithms.FirstTask.SecondTask
 
         public void AddCommand(T value)
         {
-            switch (_dataStruct)
+            switch (DataStruct)
             {
                 case Algorithms.SecondTask.Stack<T> stack:
                     stack.Push(value);
@@ -32,21 +40,21 @@ namespace Algorithms.FirstTask.SecondTask
             }
         }
 
-        public T RemoveCommand() => _dataStruct switch
+        public T RemoveCommand() => DataStruct switch
         {
             Algorithms.SecondTask.Stack<T> stack => stack.Pop(),
             Algorithms.SecondTask.Queue<T> queue => queue.Dequeue(),
             _ => throw new NotSupportedException()
         };
 
-        public T PeekCommand() => _dataStruct switch
+        public T PeekCommand() => DataStruct switch
         {
             Algorithms.SecondTask.Stack<T> stack => stack.Top,
             Algorithms.SecondTask.Queue<T> queue => queue.Peek,
             _ => throw new NotSupportedException()
         };
 
-        public bool IsEmptyCommand() => _dataStruct switch
+        public bool IsEmptyCommand() => DataStruct switch
         {
             Algorithms.SecondTask.Stack<T> stack => stack.IsEmpty,
             Algorithms.SecondTask.Queue<T> queue => queue.IsEmpty,
@@ -55,7 +63,7 @@ namespace Algorithms.FirstTask.SecondTask
 
         public string PrintCommand()
         {
-            var value = _dataStruct switch
+            var value = DataStruct switch
             {
                 Algorithms.SecondTask.Stack<T> stack => stack.ToString(),
                 Algorithms.SecondTask.Queue<T> queue => queue.ToString(),

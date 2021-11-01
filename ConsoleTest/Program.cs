@@ -9,13 +9,14 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            var Queue1 = new Algorithms.SecondTask.Queue<object>();
-            var text = CommandsManger.ParseText(new string[]{"Queue1: 1,56 2 4 5 1,car 5 1,cat 5;"});
-            var list = new List<CommandStruct<object>>()
+            var Queue1 = new Algorithms.SecondTask.Queue<string>();
+            var text = CommandsManger.Instance.ParseText(new string[]{"Queue1: 4 5 1,car 5 1,cat 5; Queue1: 1,cat 5"});
+            ICommandStruct<object> element = new CommandStruct<string>(Queue1, nameof(Queue1));
+            var list = new List<ICommandStruct<object>>()
             {
-                new CommandStruct<object>(Queue1, nameof(Queue1))
+                element
             };
-            var results = CommandsManger.ActivateCommands(text, list);
+            var results = CommandsManger.Instance.ActivateCommands(text, list);
             foreach (var result in results)
             {
                 Console.WriteLine(result);
