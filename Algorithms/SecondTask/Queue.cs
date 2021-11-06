@@ -45,7 +45,7 @@ namespace Algorithms.SecondTask
         {
             System.Text.StringBuilder @string = new();
             foreach (var element in this)
-                @string.Append($"{element.ToString()} ");
+                @string.Append($"{element} ");
             return @string.ToString().Trim().Replace(" ", ", ");
         }
 
