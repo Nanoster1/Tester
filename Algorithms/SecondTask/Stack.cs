@@ -11,7 +11,11 @@ namespace Algorithms.SecondTask
         public T Top => _top.Value;
         public int Count { get; private set; } = 0;
 
-        public void Push(T value) => _top = new SingleLinkedElement<T>() { Value = value, NextElement = _top };
+        public void Push(T value)
+        {
+            _top = new SingleLinkedElement<T>() {Value = value, NextElement = _top};
+            Count++;
+        }
 
         public T Pop()
         {
@@ -26,7 +30,7 @@ namespace Algorithms.SecondTask
         public IEnumerator<T> GetEnumerator()
         {
             var element = _top;
-            while (element is {NextElement: { }})
+            while (element is not null)
             {
                 yield return element.Value;
                 element = element.NextElement;

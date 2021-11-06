@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Algorithms.FirstTask
 {
-    public class ListGeneration
+    public static class ListGeneration
     {
-        public static int[] Generation(int n)
+        public static IEnumerable<int> GetIndexes(int[] array, int count)
         {
-            int[] arr = new int[2];
-            while (arr.Length < n)
-                arr = new int[arr.Length * 2];
-            arr[n - 1] = n;
-            return arr;
+            for (int i = 0; i < array.Length; i *= count)
+            {
+                if (i * count >= array.Length)
+                    yield return array.Length;
+                yield return array[i * count];
+            }
         }
     }
 }

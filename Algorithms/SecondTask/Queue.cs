@@ -11,7 +11,7 @@ namespace Algorithms.SecondTask
         
         public int Count { get; private set; } = 0;
         public bool IsEmpty => Count == 0;
-        public T Peek => _last.Value;
+        public T Peek => _last.Value ?? throw new Exception("Queue is empty");
         
         public void Enqueue(T value)
         {
