@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Algorithms.FirstTask.SecondTask;
 using Algorithms.FirstTask.ThirtTask;
+=======
+
+>>>>>>> Task2
 
 namespace ConsoleApp1
 {
@@ -9,6 +13,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+<<<<<<< HEAD
             //var Queue1 = new Algorithms.SecondTask.Queue<string>();
             //var text = CommandsManger.Instance.ParseText(new string[]{"Queue1: 4 5 1,car 5 1,cat 5; Queue1: 1,cat 5"});
             //ICommandStruct<object> element = new CommandStruct<string>(Queue1, nameof(Queue1));
@@ -26,6 +31,9 @@ namespace ConsoleApp1
 			{
                 Console.WriteLine(item.ToString());
 			}
+=======
+            
+>>>>>>> Task2
         }
     }
 }

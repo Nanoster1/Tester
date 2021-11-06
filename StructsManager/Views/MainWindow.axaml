@@ -1,0 +1,76 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ed="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        xmlns:model="using:StructsManager.Models"
+        xmlns:vm="using:StructsManager.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="StructsManager.Views.MainWindow"
+        Title="MainWindow">
+  
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  
+  <Grid ShowGridLines="True" ColumnDefinitions="*,4*,*" RowDefinitions="*,5*,*" >
+    <ed:TextEditor Grid.Column="1" Grid.Row="1"
+                   x:Name="Editor"
+                   TextChanged="TextChanged"
+                   HorizontalScrollBarVisibility="Auto"
+                   VerticalScrollBarVisibility="Visible"
+                   FontWeight="SemiBold"
+                   FontSize="20"
+                   ShowLineNumbers="True"/>
+    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ResultText}" TextWrapping="Wrap" FontFamily="Arial"/>
+    <Button Grid.Column="1" Command="{Binding ConsoleCommand}" HotKey="F5">
+      <Viewbox>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <TextBlock FontFamily="Assets/Fonts/21063.otf" Text="Выполнить" VerticalAlignment="Center"/>
+          <Image MaxWidth="50" Source="avares://MessageBox.Avalonia/Assets/setting.png"/>
+        </StackPanel>
+      </Viewbox>
+    </Button>
+    <Viewbox Grid.Column="2"><TextBlock Text="Классы"/></Viewbox>
+    <CheckBox VerticalAlignment="Bottom" Grid.Column="2" Command="{Binding LoadSystem}" CommandParameter="{Binding $self.IsChecked}">Подгрузить System</CheckBox>
+    <TreeView Grid.Column="2" Grid.Row="1" Items="{Binding Assemblies}" SelectedItem="{Binding SelectedType}"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      
+      <TreeView.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel/>
+        </ItemsPanelTemplate>
+      </TreeView.ItemsPanel>
+      
+      <TreeView.DataTemplates>
+        <TreeDataTemplate DataType="model:AssemblyModel" ItemsSource="{Binding Types}">
+          <Viewbox MaxHeight="20"><TextBlock Text="{Binding Name}"/></Viewbox>
+        </TreeDataTemplate>
+      <DataTemplate>
+        <Viewbox MaxHeight="20"><TextBlock Text="{Binding Name}" TextWrapping="Wrap"/></Viewbox>
+      </DataTemplate>
+      </TreeView.DataTemplates>
+    
+    </TreeView>
+    
+    <Viewbox><TextBlock Text="Переменные"/></Viewbox>
+    <ListBox Grid.Row="1" Items="{Binding Variables}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Viewbox MaxHeight="20"><TextBlock Text="{Binding Name}"/></Viewbox>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <Button Grid.Column="2" Grid.Row="2" Command="{Binding LoadAssembly}">Загрузить dll</Button>
+    <Button Grid.Row="2" Command="{Binding CreateVariableCommand}">
+      <Viewbox>
+      <StackPanel Orientation="Horizontal">
+        <Image MaxWidth="50" Source="avares://MessageBox.Avalonia/Assets/plus.png"/>
+        <TextBlock VerticalAlignment="Center" Text="Добавить переменную"/>
+      </StackPanel>
+      </Viewbox>
+    </Button>
+    
+  </Grid> 
+</Window>

@@ -1,6 +1,6 @@
 namespace Algorithms.SecondTask
 {
-    public class SingleLinkedList
+    public class SingleLinkedList<T>
     {
         
     }
