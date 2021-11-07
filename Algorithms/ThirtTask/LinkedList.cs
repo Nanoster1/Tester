@@ -21,7 +21,7 @@ namespace Algorithms.FirstTask.ThirtTask
 		/// <param name="node">node that will be linked with this node</param>
 		public void ConnectNode(Node<TValue> node)
 		{
-			this.NextNode = node ?? throw new Exception("Empty Array");
+			this.NextNode = node ?? throw new Exception("Array is Empty");
 		}
 		public void RemoveConnect()
 		{
@@ -84,7 +84,7 @@ namespace Algorithms.FirstTask.ThirtTask
 		}
 		public TValue RemoveLastNode()
 		{
-			var node = firstNode ?? throw new Exception("List is Empty");
+			var node = firstNode ?? throw new Exception("Collection is Empty");
 
 			if (node.NextNode == null)
 			{
