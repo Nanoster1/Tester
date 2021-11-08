@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using StructsManager.Models;
 using StructsConsole;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace StructsManager.ViewModels
 {
@@ -42,11 +43,24 @@ namespace StructsManager.ViewModels
         [Reactive] public Type SelectedType { get; set; }
         [Reactive] public string ResultText { get; set; }
         [Reactive] public string ConsoleText { get; set; }
+
         public ReactiveCommand<Unit, Unit> ConsoleCommand { get; set; }
         public ReactiveCommand<Unit, Unit> CreateVariableCommand { get; set; }
 
         public Interaction<Unit, string> LoadAsInteraction { get; } = new();
         public Interaction<Exception, Unit> GetException { get; } = new();
+        public Interaction<string, string> SetVariableName { get; } = new();
+
+        public event Action<string> ConsoleTextChanged = (s) => { };
+
+        public async void LoadFile()
+        {
+            var path = await LoadAsInteraction.Handle(Unit.Default);
+            if (string.IsNullOrWhiteSpace(path)) return;
+            var text = await File.ReadAllLinesAsync(path);
+            ConsoleText = string.Join('\n', text);
+            ConsoleTextChanged(ConsoleText);
+        }
 
         public async void LoadSystem(bool value)
         {
@@ -78,6 +92,9 @@ namespace StructsManager.ViewModels
 
         public async Task CreateVariable()
         {
+            var varName = await SetVariableName.Handle(SelectedType.Name);
+            if (varName == null) return;
+
             object instance;
             try
             {
@@ -99,7 +116,13 @@ namespace StructsManager.ViewModels
             {
                 instance = SelectedType;
             }
-            Variables.Add(new Variable() { Name = $"Variable{++variableIndex}", Data = instance });
+
+            var variable = new Variable()
+            {
+                Name = varName,
+                Data = instance
+            };
+            Variables.Add(variable);
         }
     }
 }

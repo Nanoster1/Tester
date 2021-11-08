@@ -5,7 +5,7 @@
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              xmlns:cc="clr-namespace:AvaloniaEdit.CodeCompletion;assembly=AvaloniaEdit">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+      <local:ViewLocator/>
     </Application.DataTemplates>
 
   <Application.Resources>
@@ -13,6 +13,11 @@
   </Application.Resources>
   
   <Application.Styles>
+    <Style Selector="Window">
+      <Setter Property="WindowStartupLocation" Value="CenterOwner"/>
+      <Setter Property="Background" Value="#0f0f0f"/>
+      <Setter Property="Foreground" Value="#fff"/>
+    </Style>
     <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
     <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
     <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml"/>

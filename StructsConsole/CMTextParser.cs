@@ -8,9 +8,9 @@ namespace StructsConsole
 {
     public partial class CommandsManager
     {
-        public async Task<List<CommandsElement>> ParseTextAsync(string[] text)
+        public Task<List<CommandsElement>> ParseTextAsync(string[] text)
         {
-            return await Task.Run((() => ParseText(text)));
+            return Task.Run((() => ParseText(text)));
         }
         
         public List<CommandsElement> ParseText(string[] text)
@@ -89,14 +89,14 @@ namespace StructsConsole
         private object? ParseArg(string arg)
         {
             if (string.IsNullOrWhiteSpace(arg)) return null;
-            else if (arg[0] is '\"' && arg[^1] is '\"') return arg;
-            else if (arg[0] is '\'' && arg[^1] is '\'') return Convert.ToChar(arg);
+            else if (arg[0] is '\"' && arg[^1] is '\"') return arg.Replace("\"", "");
+            else if (arg[0] is '\'' && arg[^1] is '\'') return Convert.ToChar(arg.Replace("\'", ""));
             else if (arg.Contains('{')) return ParseArray(arg);
             else if (byte.TryParse(arg, out var numInt16)) return numInt16;
             else if (int.TryParse(arg, out var numInt32)) return numInt32;
             else if (double.TryParse(arg.Replace('.',','), out var numDouble)) return numDouble;
             else if (bool.TryParse(arg, out var boolValue)) return boolValue;
-            else if (CheckOnMathOperations(arg)) return null; //RPN
+            else if (CheckOnMathOperations(arg)) return _arithmeticManager.Calculate(arg);
             else if (arg.Contains('.')) return ParseSubTask(arg);
             else return Variables[arg];
         }
@@ -118,7 +118,7 @@ namespace StructsConsole
         {
             var arithmeticsOps = new string[]
             {
-                "log", "sin", "cos", "tg", "ctg"
+                "log", "sin", "cos", "tg", "ctg", "ln"
             };
             return "+-/*^".Any(arg.Contains) || arithmeticsOps.Any(arg.Contains);
         }

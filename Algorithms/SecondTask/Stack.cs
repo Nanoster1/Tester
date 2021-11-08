@@ -6,7 +6,7 @@ namespace Algorithms.SecondTask
 {
     public class Stack<T>: IEnumerable<T>, IReadOnlyCollection<T>
     {
-        private SingleLinkedElement<T> _top;
+        private SingleLinkedElement<T> _top = null;
         
         public T Top => _top.Value;
         public int Count { get; private set; } = 0;

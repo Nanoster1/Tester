@@ -1,84 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace StructsConsole.RPN
+namespace StructsConsole
 {
-    public abstract class Operation
+    internal abstract class Operation
     {
         public abstract string Name { get; }
         public abstract int CountParams { get; }
         public abstract double Calculate(double[] @params);
-        public abstract int Prior { get; }
+        public abstract byte Prior { get; }
     }
-    public class Plus : Operation
+    internal class Plus : Operation
     {
         public override string Name => "+";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return @params[1] + @params[0]; }
-        public override int Prior => 3;
+        public override byte Prior => 3;
     }
-    public class Minus : Operation
+    internal class Minus : Operation
     {
         public override string Name => "-";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return @params[1] - @params[0]; }
-        public override int Prior => 3;
+        public override byte Prior => 3;
     }
-    class Mult : Operation
+
+    internal class Mult : Operation
     {
         public override string Name => "*";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return @params[1] * @params[0]; }
-        public override int Prior => 2;
+        public override byte Prior => 2;
     }
-    class Div : Operation
+    internal class Div : Operation
     {
         public override string Name => "/";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return @params[1] / @params[0]; }
-        public override int Prior => 2;
+        public override byte Prior => 2;
     }
-    class Log : Operation
+    internal class Log : Operation
     {
         public override string Name => "log";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return Math.Log(@params[0], @params[1]); }                    //params 1 = основание
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
-    class Sin : Operation
+    internal class Ln : Operation
+    {
+        public override string Name => "ln";
+        public override int CountParams => 1;
+        public override double Calculate(double[] @params) { return Math.Log(@params[0]); }                    //params 1 = основание
+        public override byte Prior => 1;
+    }
+    internal class Sin : Operation
     {
         public override string Name => "sin";
         public override int CountParams => 1;
         public override double Calculate(double[] @params) { return Math.Sin(@params[0]); }
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
-    class Cos : Operation
+    internal class Cos : Operation
     {
         public override string Name => "cos";
         public override int CountParams => 1;
         public override double Calculate(double[] @params) { return Math.Cos(@params[0]); }
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
-    class Tan : Operation
+    internal class Tan : Operation
     {
         public override string Name => "tg";
         public override int CountParams => 1;
         public override double Calculate(double[] @params) { return Math.Tan(@params[0]); }
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
-    class Rank: Operation
+    internal class Rank: Operation
     {
         public override string Name => "^";
         public override int CountParams => 2;
         public override double Calculate(double[] @params) { return Math.Pow(@params[1], @params[0]); }
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
-    class Sqrt : Operation
+    internal class Sqrt : Operation
     {
         public override string Name => "sqrt";
         public override int CountParams => 1;
         public override double Calculate(double[] @params) { return Math.Sqrt(@params[0]); }
-        public override int Prior => 1;
+        public override byte Prior => 1;
     }
 }

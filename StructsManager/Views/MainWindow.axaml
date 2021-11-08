@@ -7,7 +7,12 @@
         xmlns:vm="using:StructsManager.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StructsManager.Views.MainWindow"
-        Title="MainWindow">
+        Title="MainWindow" 
+        ShowInTaskbar="True"
+        ExtendClientAreaToDecorationsHint="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0"
+        WindowStartupLocation="CenterScreen">  
   
   <Design.DataContext>
     <vm:MainWindowViewModel/>
@@ -22,15 +27,17 @@
                    FontWeight="SemiBold"
                    FontSize="20"
                    ShowLineNumbers="True"/>
+
+    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+      <Button Command="{Binding LoadFile}" HotKey="F1">
+        <Image MaxWidth="50" Source="/Assets/Icons/folder.png"/>
+      </Button>
+      <Button Command="{Binding ConsoleCommand}" HotKey="F5">
+        <Image MaxWidth="50" Source="avares://MessageBox.Avalonia/Assets/setting.png"/>
+      </Button>
+    </StackPanel>
+    
     <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ResultText}" TextWrapping="Wrap" FontFamily="Arial"/>
-    <Button Grid.Column="1" Command="{Binding ConsoleCommand}" HotKey="F5">
-      <Viewbox>
-        <StackPanel Orientation="Horizontal" Spacing="10">
-          <TextBlock FontFamily="Assets/Fonts/21063.otf" Text="Выполнить" VerticalAlignment="Center"/>
-          <Image MaxWidth="50" Source="avares://MessageBox.Avalonia/Assets/setting.png"/>
-        </StackPanel>
-      </Viewbox>
-    </Button>
     <Viewbox Grid.Column="2"><TextBlock Text="Классы"/></Viewbox>
     <CheckBox VerticalAlignment="Bottom" Grid.Column="2" Command="{Binding LoadSystem}" CommandParameter="{Binding $self.IsChecked}">Подгрузить System</CheckBox>
     <TreeView Grid.Column="2" Grid.Row="1" Items="{Binding Assemblies}" SelectedItem="{Binding SelectedType}"
@@ -67,7 +74,7 @@
       <Viewbox>
       <StackPanel Orientation="Horizontal">
         <Image MaxWidth="50" Source="avares://MessageBox.Avalonia/Assets/plus.png"/>
-        <TextBlock VerticalAlignment="Center" Text="Добавить переменную"/>
+        <TextBlock  VerticalAlignment="Center" Text="Добавить переменную"/>
       </StackPanel>
       </Viewbox>
     </Button>

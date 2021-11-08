@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Algorithms.SecondTask
 {
-    public class Queue<T>: IEnumerable<T>, IReadOnlyCollection<T>
+    public class Queue<T>: IReadOnlyCollection<T>
     {
         private SingleLinkedElement<T> _first;
         private SingleLinkedElement<T> _last;

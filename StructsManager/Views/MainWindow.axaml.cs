@@ -6,6 +6,7 @@ using AvaloniaEdit;
 using AvaloniaEdit.Highlighting;
 using AvaloniaEdit.Highlighting.Xshd;
 using MessageBox.Avalonia;
+using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using StructsManager.ViewModels;
@@ -32,6 +33,8 @@ namespace StructsManager.Views
             {
                 LoadHighlighting(Environment.CurrentDirectory + "\\init.xml");
 
+                ViewModel.ConsoleTextChanged += ViewModel_ConsoleTextChanged;
+
                 ViewModel.LoadAsInteraction.RegisterHandler(async context => 
                 {
                     var window = new OpenFileDialog();
@@ -48,12 +51,34 @@ namespace StructsManager.Views
                     await window.ShowDialog(this);
                     context.SetOutput(Unit.Default);
                 });
+
+                ViewModel.SetVariableName.RegisterHandler(async context =>
+                {
+                    var window = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams() 
+                    {
+                        ContentMessage = "Название:",
+                        ContentHeader = "Добавление переменной",
+                        ShowInCenter = true,
+                        Icon = MessageBox.Avalonia.Enums.Icon.Plus, 
+                        InputDefaultValue = context.Input, 
+                        CanResize = false 
+                    });
+                    var result = await window.ShowDialog(this);
+                    if (result.Button == "Confirm")
+                        context.SetOutput(result.Message);
+                    else context.SetOutput(null);
+                });
             });
+        }
+
+        private void ViewModel_ConsoleTextChanged(string text)
+        {
+            _textEditor.Text = text;
         }
 
         private void TextChanged(object? sender, EventArgs e)
         {
-            ViewModel.ConsoleText = this.FindControl<TextEditor>("Editor").Text;
+            ViewModel.ConsoleText = _textEditor.Text;
         }
 
         private void InitializeComponent()

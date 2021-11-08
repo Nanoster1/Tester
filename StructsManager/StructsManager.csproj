@@ -8,6 +8,8 @@
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
     <None Remove="Assets\CommandsSyntax.xml" />
+    <None Remove="Assets\Fonts\Ruberoid-SemiBold.ttf" />
+    <None Remove="Assets\Icons\folder.png" />
     <None Remove="Assets\init.xml" />
   </ItemGroup>
   <ItemGroup>

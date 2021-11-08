@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -18,7 +19,6 @@ namespace StructsConsole
             return str.Substring(firstIndex + 1,  str.Length - firstIndex - (str.Length - lastIndex) - 1);
         }
         
-        //Comma = | Space = /
         internal static string[] SaveOnlyMainSymbolsAndSplit(this string str, char replaceableChar)
         {
             str = SaveOnlyMainSymbols(str, replaceableChar);
@@ -32,13 +32,25 @@ namespace StructsConsole
         {
             var swapChar = '⍔';
             var sbTask = new StringBuilder(str);
-            var firstSymFound = false;
+            Stack<char> openChars = new();
             for (var i = 0; i < sbTask.Length; i++)
             {
-                if (firstSymFound && sbTask[i] == replaceableChar) sbTask[i] = swapChar;
-                if (str[i] is '{' or '}' or '(' or ')' or '\'' or '\"') firstSymFound = !firstSymFound;
+                if (openChars.Count != 0 && sbTask[i] == replaceableChar) sbTask[i] = swapChar;
+                openChars.TryPeek(out var openChar);
+                if (str[i] == GetCloseChar(openChar)) openChars.Pop();
+                if (str[i] is '(' or '{' or '[' or '"' or '\'') openChars.Push(str[i]);
             }
             return sbTask.ToString();
         }
+
+        private static char? GetCloseChar(char openChar) => openChar switch
+        {
+            '{' => '}',
+            '(' => ')',
+            '[' => ']',
+            '\'' => '\'',
+            '\"' => '\"',
+            _ => null
+        };
     }
 }

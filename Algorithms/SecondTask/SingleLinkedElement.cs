@@ -1,9 +1,9 @@
 namespace Algorithms.SecondTask
 {
-    public class SingleLinkedElement<T>
+    internal class SingleLinkedElement<T>
     {
-        public SingleLinkedElement<T> NextElement { get; set; }
-        public T Value { get; init; }
+        internal SingleLinkedElement<T> NextElement { get; set; }
+        internal T Value { get; init; }
         public override string ToString()
         {
             return Value.ToString();

@@ -7,11 +7,15 @@ namespace StructsConsole
 {
     public partial class CommandsManager
     {
-        public async Task<List<CommandResult>> ActivateCommandsAsync(List<CommandsElement> commandsElements) => 
-            await Task.Run(() => ActivateCommands(commandsElements));
+        public Task<List<CommandResult>> ActivateCommandsAsync(List<CommandsElement> commandsElements)
+        {
+            return Task.Run(() => ActivateCommands(commandsElements));
+        }
 
-        private CommandResult ActivateOneCommand(CommandsElement commandsElement) => 
-            ActivateCommands(new List<CommandsElement>() {commandsElement}).First();
+        private CommandResult ActivateOneCommand(CommandsElement commandsElement)
+        {
+            return ActivateCommands(new List<CommandsElement>() {commandsElement}).First();
+        }
 
         public List<CommandResult> ActivateCommands(List<CommandsElement> commandsElements)
         {

@@ -28,6 +28,9 @@ namespace Algorithms.SecondTask
                         var res = stack.IsEmpty;
                         Console.WriteLine("Operation {0}, result: {1}", nameof(stack.IsEmpty), res);
                         break;
+                    case (Operations.Print):
+                        Console.WriteLine(stack);
+                        break;
                 }
             }
         }
@@ -53,6 +56,9 @@ namespace Algorithms.SecondTask
                     case (Operations.IsEmpty):
                         var res = queue.IsEmpty;
                         Console.WriteLine("Operation {0}, result: {1}", nameof(queue.IsEmpty), res);
+                        break;
+                    case (Operations.Print):
+                        Console.WriteLine(queue);
                         break;
                 }
             }
