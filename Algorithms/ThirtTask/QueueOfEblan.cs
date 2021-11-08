@@ -11,13 +11,13 @@ namespace Algorithms.FirstTask.ThirtTask
 		public QueueOfEblan() { }
 		public QueueOfEblan(T fitstValue)
 		{
-			list = new LinkedList<T>(fitstValue);
+			list = new LinkedList<T>(fitstValue,1);
 		}
 		public QueueOfEblan(IEnumerable<T> collection)
 		{
 			foreach (var item in collection)
 				if (list == null)
-					list = new LinkedList<T>(item);
+					list = new LinkedList<T>(item,1);
 				else
 					list.AddInEnd(item);
 		}
@@ -29,7 +29,7 @@ namespace Algorithms.FirstTask.ThirtTask
 		public void Enqueue(T value)
 		{
 			if (list == null)
-				list = new LinkedList<T>(value);
+				list = new LinkedList<T>(value,1);
 			else
 				list.AddInEnd(value);
 		}

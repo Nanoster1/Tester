@@ -18,13 +18,16 @@ namespace Algorithms.FirstTask.ThirtTask
 				try
 				{
 					if (item.Contains("1"))
-						stack.Push(GetElement(item, '1'));
+						stack.Push(GetElement(item, '1'));	
+						
 					else if (item.Contains("2"))
 						stack.Pop();
+						
 					else if (item.Contains("3"))
-						stack.Top();
+						stack.Top();			
 					else if (item.Contains("4"))
 						stack.IsEmpty();
+						
 					else if (item.Contains("5"))
 						Console.WriteLine(stack.ToString());
 					else
@@ -46,21 +49,6 @@ namespace Algorithms.FirstTask.ThirtTask
 				else
 					return null;
 			}
-		}
-		public static string GetRandomCommnad(int count)
-		{
-			var rnd = new Random();
-			StringBuilder @string = new ();
-			for (int i = 0; i < count; i++)
-			{
-				var value = rnd.Next(1, 5);
-				if(value == 1)
-					@string.Append($"{value},{rnd.Next()}");
-				else
-					@string.Append(value);
-
-			}
-			return @string.ToString();
-		}
+		}		
 	}
 }
