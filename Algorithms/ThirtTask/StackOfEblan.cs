@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
 namespace Algorithms.FirstTask.ThirtTask
 {
 	public class StackOfEblan<T> : IEnumerable<T>, IReadOnlyCollection<T>
@@ -35,10 +32,20 @@ namespace Algorithms.FirstTask.ThirtTask
 			else
 				list.AddInEnd(value);
 		}
+		public T Top()
+		{
+			var result = Pop();
+			list.AddInEnd(result);
+			return result ?? throw new Exception("Stack is Empty");
+		}
 
 		public T Pop()
 		{
-			return list != null ? list.RemoveLastNode() : throw new Exception("Stack is Empty");
+			return list != null ? list.RemoveFirstNode() : throw new Exception("Stack is Empty");
+		}
+		public bool IsEmpty()
+		{
+			return list == null || list.Count == 0;
 		}
 		public IEnumerator<T> GetEnumerator()
 		{
@@ -48,6 +55,15 @@ namespace Algorithms.FirstTask.ThirtTask
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+		public override string ToString()
+		{
+			StringBuilder @string = new();
+			foreach (var item in this)
+			{
+				@string.Append($"{item} ");
+			}
+			return @string.ToString();
 		}
 	}
 }

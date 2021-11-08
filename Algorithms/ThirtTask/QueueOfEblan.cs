@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Algorithms.FirstTask.ThirtTask
 {
@@ -39,6 +40,10 @@ namespace Algorithms.FirstTask.ThirtTask
 		{
 			return list != null ? list.RemoveFirstNode(): throw new Exception("Collection is Empty");
 		}
+		public bool IsEmpty()
+		{
+			return list == null || list.Count == 0;
+		}
 		public IEnumerator<T> GetEnumerator()
 		{
 			return list == null ? throw new Exception("Empty Quere") : list.GetEnumerator();
@@ -47,6 +52,15 @@ namespace Algorithms.FirstTask.ThirtTask
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+		public override string ToString()
+		{
+			StringBuilder @string = new();
+			foreach (var item in this)
+			{
+				@string.Append($"{item} ");
+			}
+			return @string.ToString();
 		}
 	}
 }
