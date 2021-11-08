@@ -5,7 +5,6 @@ open System.Numerics
 
 module Fibonachi =
     let LazyAlg num2 = 
-            let mutable index = 0
             
             let mutable num = new BigInteger(0)
             let mutable nextnum = new BigInteger(1)

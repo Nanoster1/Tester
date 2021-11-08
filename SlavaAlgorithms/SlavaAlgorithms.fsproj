@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Averager.fs" />
+    <Compile Include="AnalysisParenthesExpressions.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>
 

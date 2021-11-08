@@ -17,8 +17,9 @@ namespace Tester.Meta.Testers
 
         public TestResult<double> LastResult { get; protected set; }
         public IList<TestResult<double>> AllResults { get; protected set; }
+		public object Services { get; private set; }
 
-        public void Test(Action algorithm, int iterationNumber, string name)
+		public void Test(Action algorithm, int iterationNumber, string name)
         {
             var time = new Stopwatch();
             var localResults = new double[iterationNumber];
@@ -45,12 +46,12 @@ namespace Tester.Meta.Testers
             FileInfo file = new(path);
             var groupedResults = AllResults.GroupBy(x => x.AlgorithmName);
 
-            //foreach (var group in groupedResults)
-            //{
-            //    var groupAr = group.ToArray();
-            //    if (!EmissionsEnabled) Services.DeleteEmissions(groupAr);
-            //    SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
-            //}
-        }
+			foreach (var group in groupedResults)
+			{
+				var groupAr = group.ToArray();
+				//if (!EmissionsEnabled) Services.DeleteEmissions(groupAr);
+				SaveManager.SaveTable(file, groupAr, "ID (n)", "Time (Milliseconds)");
+			}
+		}
     }
 }
