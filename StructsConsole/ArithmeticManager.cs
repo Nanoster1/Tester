@@ -29,7 +29,7 @@ namespace StructsConsole
                 if (element is Operation operation) return operation.Name;
                 return element;
             });
-            return string.Join("", rpnEnumerable);
+            return string.Join(" ", rpnEnumerable);
         }
 
         public double Calculate(string expression)
@@ -40,11 +40,12 @@ namespace StructsConsole
         private List<object> ParseExpression(string text)
         {
             var expression = new List<object>();
-            
+            text = "⊥" + text + "⊥";
             
             for (var i = 0; i < text.Length; i++)
             {
-                if (char.IsDigit(text[i]) || IsPrefix(text, i)) expression.Add(ReadNumber(text, ref i));
+                if (text[i] is '⊥') expression.Add(text[i]);
+                else if (char.IsDigit(text[i]) || IsPrefix(text, i)) expression.Add(ReadNumber(text, ref i));
                 else if (text[i] is '(' or ')') expression.Add(text[i]);
                 else if (char.IsWhiteSpace(text[i])) continue;
                 else expression.Add(ReadOperation(text, ref i));
@@ -106,63 +107,89 @@ namespace StructsConsole
         {
             var california = new Stack<object>();
             var texas = new Stack<object>();
-            for (int i = 0; i < expression.Count; i++)
+            var i = 0;
+            while (true)
             {
-                if (expression[i] is byte or int or double)
+                if (i == 0)                                                     //Символ начала строки идёт сразу во 2-й стек 
+                {
+                    texas.Push(expression[i]);
+                    i++;
+                }
+                else if (expression[i] is double)
                 {
                     california.Push(expression[i]);
+                    i++;
                 }
                 else if (expression[i] is '(')
                 {
                     texas.Push(expression[i]);
+                    i++;
                 }
                 else if (expression[i] is ')')
                 {
-                    switch (texas.Peek())
+                    if (texas.Peek() is Operation)
                     {
-                        case Operation:
-                            california.Push(texas.Pop());
-                            i--;
-                            continue;
-                        case '(':
-                            texas.Pop();
-                            continue;
-                        default:
-                            throw new SyntaxErrorException();
+                        california.Push(texas.Pop());
+                    }
+                    else if (texas.Peek() is '(')
+                    {
+                        texas.Pop();
+                        i++;
+                    }
+                    else
+                    {
+                        throw new SyntaxErrorException();
                     }
                 }
                 else if (expression[i] is Operation operation)
                 {
-                    if (texas.TryPeek(out var peek) && 
-                        (operation.Prior == 2 || operation.Prior == 3 && peek is Operation))
-                    { 
-                        california.Push(texas.Pop());
-                        i--;
-                        continue;
+                    if (operation.Prior == 1)
+                    {
+                        texas.Push(expression[i]);
+                        i++;
                     }
-                    texas.Push(expression[i]);
+                    else if (operation.Prior == 2 && (!(texas.Peek() is Operation peek) || peek.Prior == 3))
+                    {
+                        texas.Push(expression[i]);
+                        i++;
+                    }
+                    else if (operation.Prior == 2 || (operation.Prior == 3 && texas.Peek() is Operation))
+                    {
+                        california.Push(texas.Pop());
+                    }
+                    else if (operation.Prior == 3)
+                    {
+                        texas.Push(expression[i]);
+                        i++;
+                    }
+                }
+                else if (expression[i] is '⊥')
+                {
+                    if (texas.Peek() is Operation) california.Push(texas.Pop());
+                    else break;
                 }
             }
-            if (texas.Peek() is Operation) california.Push(texas.Pop());
-            return california;
+            return new(california);
         }
         
         private double CalculateRpn(Stack<object> rpn)
         {
             var calc = new Stack<double>();
-            while (rpn.Count > 0)
+            for (var i = rpn.Count - 1; i >= 0; i--)
             {
                 var element = rpn.Pop();
-                if (element is double doubleNum)
-                    calc.Push(doubleNum);
+                if (element is double elementD)
+                {
+                    calc.Push(elementD);
+                }
                 else if (element is Operation operation)
                 {
                     if (operation.CountParams == 2)
                     {
-                        double[] @params = new double[2] { calc.Pop(), calc.Pop() };
+                        double[] @params = { calc.Pop(), calc.Pop() };  //x2 , x1
                         calc.Push(operation.Calculate(@params));
                     }
-                    else 
+                    else
                     {
                         double[] @params = { calc.Pop() };
                         calc.Push(operation.Calculate(@params));
