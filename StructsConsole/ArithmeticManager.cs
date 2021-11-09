@@ -143,30 +143,24 @@ namespace StructsConsole
                 }
                 else if (expression[i] is Operation operation)
                 {
-                    switch (operation.Prior)
+                    if (operation.Prior == 1)
                     {
-                        case (1):
-                            texas.Push(expression[i]);
-                            i++;
-                            break;
-                        case (2):
-                            if (!(texas.Peek() is Operation peek) || peek.Prior == 3)
-                            {
-                                texas.Push(expression[i]);
-                                i++;
-                            }
-                            else
-                                california.Push(texas.Pop());
-                            break;
-                        case (3):
-                            if (texas.Peek() is Operation)
-                                california.Push(texas.Pop());
-                            else
-                            {
-                                texas.Push(expression[i]);
-                                i++;
-                            }
-                            break;
+                        texas.Push(expression[i]);
+                        i++;
+                    }
+                    else if (operation.Prior == 2 && (!(texas.Peek() is Operation peek) || peek.Prior == 3))
+                    {
+                        texas.Push(expression[i]);
+                        i++;
+                    }
+                    else if (operation.Prior == 2 || (operation.Prior == 3 && texas.Peek() is Operation))
+                    {
+                        california.Push(texas.Pop());
+                    }
+                    else if (operation.Prior == 3)
+                    {
+                        texas.Push(expression[i]);
+                        i++;
                     }
                 }
                 else if (expression[i] is '⊥')
