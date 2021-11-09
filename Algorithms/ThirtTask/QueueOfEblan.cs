@@ -40,6 +40,12 @@ namespace Algorithms.FirstTask.ThirtTask
 		{
 			return list != null ? list.RemoveFirstNode(): throw new Exception("Collection is Empty");
 		}
+		public T Top()
+		{
+			var node = list == null?throw new Exception("Collection is Empty"):list.RemoveLastNode() ;
+			list.AddInEnd(node);
+			return node;
+		}
 		public bool IsEmpty()
 		{
 			return list == null || list.Count == 0;

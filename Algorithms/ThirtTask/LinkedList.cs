@@ -1,69 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
+using System.Text;
+using System.Linq;
 namespace Algorithms.FirstTask.ThirtTask
 {
-	public class LruCache<TKey, TValue>
-	{
-		private readonly int capacity;
-		private readonly Dictionary<TKey, LinkedListNode<LruCacheItem<TKey, TValue>>> cache = new Dictionary<TKey, LinkedListNode<LruCacheItem<TKey, TValue>>>();
-		private readonly System.Collections.Generic.LinkedList<LruCacheItem<TKey, TValue>> lastUsedItems = new System.Collections.Generic.LinkedList<LruCacheItem<TKey, TValue>>();
-
-		public LruCache(int capacity)
-		{
-			this.capacity = capacity;
-		}
-
-		[MethodImpl(MethodImplOptions.Synchronized)]
-		public bool TryGet(TKey key, out TValue value)
-		{
-			value = default(TValue);
-
-			LinkedListNode<LruCacheItem<TKey, TValue>> node;
-			if (!cache.TryGetValue(key, out node))
-				return false;
-
-			value = node.Value.Value;
-			lastUsedItems.Remove(node);
-			lastUsedItems.AddLast(node);
-			return true;
-		}
-
-		[MethodImpl(MethodImplOptions.Synchronized)]
-		public void Add(TKey key, TValue val)
-		{
-			if (cache.Count >= capacity)
-				RemoveFirst();
-
-			var cacheItem = new LruCacheItem<TKey, TValue>(key, val);
-			var node = new LinkedListNode<LruCacheItem<TKey, TValue>>(cacheItem);
-			lastUsedItems.AddLast(node);
-			cache.Add(key, node);
-		}
-
-		private void RemoveFirst()
-		{
-			var node = lastUsedItems.First;
-			lastUsedItems.RemoveFirst();
-
-			/* Remove from cache */
-			cache.Remove(node.Value.Key);
-		}
-	}
-
-	internal class LruCacheItem<TKey, TValue>
-	{
-		public readonly TKey Key;
-		public readonly TValue Value;
-
-		public LruCacheItem(TKey k, TValue v)
-		{
-			Key = k;
-			Value = v;
-		}
-	}
 	interface INode<TValue>
 	{
 		public abstract TValue Value { get; }
@@ -184,6 +125,15 @@ namespace Algorithms.FirstTask.ThirtTask
 				case 2: this.firstNode = new TwoLinkNode<TValue>(firstNode) ?? throw new Exception("Empty node"); break;
 			}
 		}
+		public LinkedList(IEnumerable<TValue> collection,int countOfTie)
+		{
+			foreach (var item in collection)
+				AddInEnd(item);
+		}
+		LinkedList(INode<TValue> node)
+		{
+			this.firstNode = node;
+		}
 		public TValue FirstNode => firstNode.Value;
 		public int Count { get; private set; } = 1;
 		public void AddOnBegin(TValue value)
@@ -251,11 +201,123 @@ namespace Algorithms.FirstTask.ThirtTask
 			this.firstNode = null;
 			this.Count = 0;
 		}
-
+		public void FirstNodeToEnd()
+		{
+			if(this.firstNode != null && this.firstNode.NextNode != null)
+			{
+				var lastNode = this.firstNode;
+				while (lastNode.NextNode != null)
+				{
+					lastNode = lastNode.NextNode;
+				}
+				var node = this.firstNode.NextNode;
+				this.firstNode.RemoveConnect();
+				lastNode.ConnectNode(this.firstNode);
+				this.firstNode = node;
+			}			
+		}
+		public int CountDifferentNum()
+		{
+			if(this is LinkedList<IComparable> list)
+			{
+				int count = list.Distinct().Count();
+				return count;
+			}
+			else
+			{
+				return Count;
+			}		
+		}
+		public LinkedList<TValue> DistinctSimilarEl()
+		{
+			if (this.firstNode is OneLinkNode<TValue>)
+				return new LinkedList<TValue>(this.Distinct(), 1);
+			else if (this.firstNode is TwoLinkNode<TValue>)
+				return new LinkedList<TValue>(this.Distinct(), 2);
+			else
+				throw new Exception("uncorrect Node");
+		}
+		public void InsertToIndex(TValue value,int index = 0)
+		{
+			if(Count > index)
+			{
+				if(index == 0 && this.firstNode == null)
+				{
+					this.firstNode = new OneLinkNode<TValue>(value);
+				}
+				var count = 0;
+				var node = this.firstNode;
+				while (node.NextNode != null && count < index)
+				{
+					count++;
+					node = node.NextNode;
+				}
+				node.ConnectNode(new OneLinkNode<TValue>(value));
+			}
+			else
+			{
+				throw new Exception("uncorrect index");
+			}			
+		}
+		public void Concat(LinkedList<TValue> list)
+		{
+			var node = this.firstNode;
+			while (node.NextNode != null)
+			{
+				node = node.NextNode;
+			}
+			node.ConnectNode(list.firstNode);
+		}
+		public bool Remove(TValue value)
+		{
+			var node = this.firstNode.NextNode;
+			var lastNode = this.firstNode;
+			if (lastNode.Value.Equals(value))
+			{
+				this.firstNode = node;
+				lastNode.RemoveConnect();
+				return true;
+			}
+			while (node.NextNode != null)
+			{		
+				if(node.Value.Equals(value))
+				{
+					lastNode.ConnectNode(node.NextNode);
+					node.RemoveConnect();
+					return true;
+				}
+				lastNode = node.NextNode;
+				node = node.NextNode;
+			}
+			return false;
+		}
+		public Tuple<LinkedList<TValue>,LinkedList<TValue>> SplitList(TValue value)
+		{
+			var node = this.firstNode.NextNode;
+			var lastNode = this.firstNode;
+			if (lastNode.Value.Equals(value))
+			{
+				return Tuple.Create(new LinkedList<TValue>(null),this);
+			}
+			while (node.NextNode != null)
+			{
+				if (node.Value.Equals(value))
+				{
+					lastNode.RemoveConnect();
+					return Tuple.Create(this, new LinkedList<TValue>(node));
+				}
+				lastNode = node.NextNode;
+				node = node.NextNode;
+			}
+			return Tuple.Create(this, new LinkedList<TValue>(null));
+		}
 		public IEnumerator<TValue> GetEnumerator()
 		{
 			INode<TValue> node = firstNode;
-			yield return node.Value;
+			if (firstNode != null)
+			{
+				yield return node.Value;
+			}				
 			while (node.NextNode != null)
 			{
 				node = node.NextNode;
@@ -266,6 +328,15 @@ namespace Algorithms.FirstTask.ThirtTask
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+		public override string ToString()
+		{
+			var @string = new StringBuilder();
+			foreach (var item in this)
+			{
+				@string.Append($"{item}, ");
+			}
+			return @string.ToString();
 		}
 	}
 }

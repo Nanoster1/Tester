@@ -34,7 +34,7 @@ namespace StructsConsole
 
         public double Calculate(string expression)
         {
-            return CalculateRpn(ParseInRpn(ParseExpression(expression)));
+            return CalculateRpn(new Stack<object>(ParseInRpn(ParseExpression(expression))));
         }
         
         private List<object> ParseExpression(string text)
@@ -159,7 +159,7 @@ namespace StructsConsole
                 {
                     if (operation.CountParams == 2)
                     {
-                        double[] @params = { calc.Pop(), calc.Pop() };
+                        double[] @params = new double[2] { calc.Pop(), calc.Pop() };
                         calc.Push(operation.Calculate(@params));
                     }
                     else 

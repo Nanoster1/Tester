@@ -1,7 +1,9 @@
 ﻿using Algorithms.FirstTask.ThirtTask;
+using StructsConsole;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Testers;
 
@@ -11,29 +13,23 @@ namespace ConsoleApp1
 	{
 		static void Main(string[] args)
 		{
-            ITester<long> tester = new MemoryTester();
-            ITester<double> tester2 = new TimeTester();
-            for (int i = 1; i < 20000; i++)
-            {
-                var command = GetRandomCommnad(i);
-				tester.Test(()=>command.GetCommand(), 5, "CommandTester");
-				tester2.Test(() => command.GetCommand(), 5, "CommandTester");
-			}
-            tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(MemoryTester));
-            tester.AllResults.Clear();
-            tester2.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(TimeTester));
-            tester2.AllResults.Clear();
-        }
+			LinkedList<IComparable> list = new LinkedList<IComparable>(1, 1);
+			list.AddInEnd(1);
+			list.AddInEnd(2);
+			list.AddInEnd(3);
+			list.Remove(1);
+			Console.WriteLine(list.ToString());
+		}
 		
 		public static string GetRandomCommnad(int count)
 		{
 			var rnd = new Random();
-			System.Text.StringBuilder @string = new();
+			StringBuilder @string = new();
 			for (int i = 0; i < count; i++)
 			{
 				var value = rnd.Next(1, 6);
 				if (value == 1)
-					@string.Append($"{value},{rnd.Next()}");
+					@string.Append($"{value},{rnd.Next(1, 100)}");
 				else
 					@string.Append(value);
 
