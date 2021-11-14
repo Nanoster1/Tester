@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Algorithms.FirstTask.ThirtTask
 {
-	public class QueueOfEblan<T> : IEnumerable<T>, IReadOnlyCollection<T>
+	public class Queue2<T> : IEnumerable<T>, IReadOnlyCollection<T>
 	{
 		private LinkedList<T> list;
-		public QueueOfEblan() { }
-		public QueueOfEblan(T fitstValue)
+		public Queue2() { }
+		public Queue2(T fitstValue)
 		{
 			list = new LinkedList<T>(fitstValue,1);
 		}
-		public QueueOfEblan(IEnumerable<T> collection)
+		public Queue2(IEnumerable<T> collection)
 		{
 			foreach (var item in collection)
 				if (list == null)

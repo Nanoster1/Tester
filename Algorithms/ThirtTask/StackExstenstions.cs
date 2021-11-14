@@ -50,10 +50,10 @@ namespace Algorithms.FirstTask.ThirtTask
 			else
 				return null;
 		}
-		public static QueueOfEblan<object> GetCommand2(this string command)
+		public static Queue2<object> GetCommand2(this string command)
 		{
 			var commands = command.Split(' ').Where(x => x.IsNormalized()).Select(x => x.Trim());
-			var queue = new QueueOfEblan<object>();
+			var queue = new Queue2<object>();
 
 			foreach (var item in commands)
 			{
