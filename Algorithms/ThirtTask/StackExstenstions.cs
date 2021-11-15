@@ -50,10 +50,10 @@ namespace Algorithms.FirstTask.ThirtTask
 			else
 				return null;
 		}
-		public static Queue2<object> GetCommand2(this string command)
+		public static Queue<object> GetCommand2(this string command)
 		{
 			var commands = command.Split(' ').Where(x => x.IsNormalized()).Select(x => x.Trim());
-			var queue = new Queue2<object>();
+			var queue = new Queue<object>();
 
 			foreach (var item in commands)
 			{
@@ -73,13 +73,12 @@ namespace Algorithms.FirstTask.ThirtTask
 
 					else if (item.Contains("3"))
 					{
-						queue.Top();
-						
+						queue.Peek();						
 					}
 						
 					else if (item.Contains("4"))
 					{
-						queue.IsEmpty();
+						var a = queue.Count > 0;
 					}					
 
 					else if (item.Contains("5"))

@@ -145,10 +145,10 @@ namespace Algorithms.FirstTask.ThirtTask
 		}
 		public void AddInEnd(TValue value)
 		{
-			var node = firstNode;
-
 			if (firstNode == null)
 				firstNode = new OneLinkNode<TValue>(value);
+			var node = firstNode;
+			
 			while (node.NextNode != null)
 				node = node.NextNode;
 
@@ -228,14 +228,20 @@ namespace Algorithms.FirstTask.ThirtTask
 				return Count;
 			}		
 		}
-		public LinkedList<TValue> DistinctSimilarEl()
+		public LinkedList<IComparable> DistinctSimilarEl()
 		{
-			if (this.firstNode is OneLinkNode<TValue>)
-				return new LinkedList<TValue>(this.Distinct(), 1);
-			else if (this.firstNode is TwoLinkNode<TValue>)
-				return new LinkedList<TValue>(this.Distinct(), 2);
-			else
-				throw new Exception("uncorrect Node");
+			if(this is IEnumerable<IComparable> list)
+			{
+				var collection = list.Distinct();
+				if (this.firstNode is OneLinkNode<IComparable>)
+					return new LinkedList<IComparable>(collection, 1);
+				else if (this.firstNode is TwoLinkNode<IComparable>)
+					return new LinkedList<IComparable>(collection, 2);
+				else
+					throw new Exception("uncorrect Node");
+
+			}
+			return null;
 		}
 		public void InsertToIndex(TValue value,int index = 0)
 		{
