@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Primitives;
@@ -12,13 +13,50 @@ namespace Algorithms.FirstTask.FourthTask
     {
         private static void Display(string changes) => Console.WriteLine(changes);
 
+
+        public static void Sort<T>(string filePath, int count = 1)
+        {
+            var lines = File.ReadLines(filePath);
+            var linesCount = lines.Count();
+            while (count <= linesCount)
+            {
+                var subArray1 = lines.GetPart(1, count);
+                var subArray2 = lines.GetPart(2, count);
+                if (count > 1)
+                {
+                    count /= 2;
+                    Sort<T>(filePath, count);
+                }
+                count *= 2;
+            }
+        }
+
+        public static IEnumerable<T> GetPart<T>(this IEnumerable<T> enumerable, int partNumber, int count)
+        {
+            var counter = 0;
+            bool isCurrentPart = partNumber == 1;
+            foreach (var element in enumerable)
+            {
+                if (isCurrentPart)
+                    yield return element;
+                counter++;
+                if (counter > count - 1)
+                {
+                    counter = 0;
+                    isCurrentPart = !isCurrentPart;
+                }
+            }
+        }
+
         public static void Sort<T>(IEnumerable<T> enumerable, Func<T, IComparable> selector)
         {
-            T[] array;
-            if (enumerable is T[] arr) array = arr;
-            else if (enumerable is null) throw new ArgumentNullException();
-            else array = enumerable.ToArray();
-
+            var array = enumerable switch
+            {
+                T[] arr => arr,
+                null => throw new ArgumentNullException(),
+                _ => enumerable.ToArray()
+            };
+            
             var m = 1;
             while (m < array.Length)
             {
