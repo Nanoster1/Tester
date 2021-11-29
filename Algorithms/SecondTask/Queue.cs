@@ -43,10 +43,7 @@ namespace Algorithms.SecondTask
 
         public override string ToString()
         {
-            System.Text.StringBuilder @string = new();
-            foreach (var element in this)
-                @string.Append($"{element} ");
-            return @string.ToString().Trim().Replace(" ", ", ");
+            return string.Join(", ", this).Trim();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Algorithms.SecondTask
 {
-    public class Stack<T>: IEnumerable<T>, IReadOnlyCollection<T>
+    public class Stack<T>: IReadOnlyCollection<T>
     {
         private SingleLinkedElement<T> _top = null;
         
@@ -39,10 +39,7 @@ namespace Algorithms.SecondTask
 
         public override string ToString()
         {
-            System.Text.StringBuilder @string = new();
-            foreach(var element in this)
-                @string.Append($"{element.ToString()} ");
-            return @string.ToString().Trim().Replace(" ", ", ");
+            return string.Join(", ", this).Trim();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

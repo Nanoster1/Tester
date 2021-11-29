@@ -58,12 +58,7 @@ namespace Algorithms.FirstTask.ThirtTask
 		}
 		public override string ToString()
 		{
-			StringBuilder @string = new();
-			foreach (var item in this)
-			{
-				@string.Append($"{item} ");
-			}
-			return @string.ToString();
+			return string.Join(", ", this).Trim();
 		}
 	}
 }

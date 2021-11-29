@@ -1,10 +1,11 @@
 ﻿using Algorithms.FirstTask.ThirtTask;
-using StructsConsole;
 using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Algorithms.FirstTask.FourthTask;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Testers;
 
@@ -14,18 +15,13 @@ namespace ConsoleApp1
 	{
 		static void Main(string[] args)
 		{
-			ITester<long> tester = new MemoryTester();
-			ITester<double> tester2 = new TimeTester();
-			for (int i = 2; i < 20000; i++)
+			var b =  new ObservableCollection<int>() {2, 5, 6,1,2,0,-4,234};
+			b.CollectionChanged += (sender, eventArgs) =>
 			{
-				var command = GetRandomCommnad(i);
-				tester.Test(()=> command.GetCommand2(), 5, nameof(Queue));
-				tester2.Test(() => command.GetCommand2(), 5, nameof(Queue));
-			}
-			tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(MemoryTester));
-			tester.AllResults.Clear();
-			tester2.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(TimeTester));
-			tester2.AllResults.Clear();
+				Console.WriteLine("Old:" + string.Join(", ", eventArgs.OldItems));
+				Console.WriteLine("New" + string.Join(", ", eventArgs.NewItems));
+			};
+			DirectMergeSort.Sort(b, x=> x);
 		}
 		
 		public static string GetRandomCommnad(int count)

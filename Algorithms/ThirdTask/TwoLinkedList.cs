@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Algorithms.FirstTask.ThirtTask
+namespace Algorithms.ThirtTask
 {
-    public class List<T>: IEnumerable<T> where T: IComparable<T>
+    public class TwoLinkedList<T>: IEnumerable<T> where T: IComparable<T>
     {
         private TwoLinkedElement<T> _first = null;
         private TwoLinkedElement<T> _last = null;
@@ -54,10 +54,6 @@ namespace Algorithms.FirstTask.ThirtTask
         }
 
         public int Count { get; private set; }
-        public int IndexOf(T item)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public T this[int index]
         {
@@ -79,6 +75,7 @@ namespace Algorithms.FirstTask.ThirtTask
         public void Reverse()
         {
             var currentElement = _last;
+            _first = _last;
             while (currentElement is not null)
             {
                 currentElement.Next = currentElement.Before;
@@ -87,28 +84,58 @@ namespace Algorithms.FirstTask.ThirtTask
                 currentElement = nextElement;
             }
         }
-
-        public void ArrangeInsert(T E)
+        
+        public void MoveElement(bool atTheEnd)
         {
-            var newElement = new TwoLinkedElement<T>() {Value = E};
+            if (atTheEnd)
+            {
+                _last.Next = _first;
+                _first.Before = _last;
+                _last = _first;
+                _first = _first.Next;
+                _last.Next = null;
+                _first.Before = null;
+            }
+            else
+            {
+                _first.Before = _last;
+                _last.Next = _first;
+                _first = _last;
+                _last = _last.Before;
+                _last.Next = null;
+                _first.Before = null;
+            }
+            
+        }
+
+        public void ArrangeInsert(T e)
+        {
+            var newElement = new TwoLinkedElement<T>() {Value = e};
             var element = _first;
             while (element is not null)
             {
-                if (element < newElement && element.Next > newElement)
+                if (element <= newElement && element.Next is not null && element.Next >= newElement)
                 {
                     var nextElement = element.Next;
                     element.Next = newElement;
                     newElement.Before = element;
                     newElement.Next = nextElement;
                     newElement.Before = newElement;
+                    return;
                 }
+
+                element = element.Next;
             }
+
+            newElement.Before = _last;
+            _last.Next = newElement;
+            _last = newElement;
         }
 
-        public void InsertBefore(T E, T F)
+        public void InsertBefore(T e, T f)
         {
-            var neededElement = new TwoLinkedElement<T>() {Value = E};
-            var newElement = new TwoLinkedElement<T>() {Value = F};
+            var neededElement = new TwoLinkedElement<T>() {Value = e};
+            var newElement = new TwoLinkedElement<T>() {Value = f};
             var element = _first;
             while (element is not null)
             {
@@ -119,12 +146,16 @@ namespace Algorithms.FirstTask.ThirtTask
                     newElement.Before = beforeElement;
                     newElement.Next = element;
                     element.Before = newElement;
+                    return;
                 }
+
+                element = element.Next;
             }
         }
 
         public void DoubleList()
         {
+            var i = Count;
             foreach (var element in this)
             {
                 var newElement = new TwoLinkedElement<T>()
@@ -134,6 +165,7 @@ namespace Algorithms.FirstTask.ThirtTask
                 };
                 _last.Next = newElement;
                 _last = newElement;
+                if (--Count == 0) return;
             }
         }
 
@@ -144,26 +176,25 @@ namespace Algorithms.FirstTask.ThirtTask
             var element = _first;
             while (element is not null)
             {
-                if (element == element1)
+                if ((element1.Next is null && element1.Before is null) && element == element1)
                 {
-                    element2.Before = element.Before;
-                    element2.Next = element.Next;
-                    element.Before.Next = element2;
-                    element.Next.Before = element2;
+                    element1 = element;
+                    if (element2.Next is not null || element2.Before is not null) break;
                 }
-                else if (element == element2)
+                else if ((element2.Next is null && element2.Before is null) && element == element2)
                 {
-                    element1.Before = element.Before;
-                    element1.Next = element.Next;
-                    element.Before.Next = element1;
-                    element.Next.Before = element1;
+                    element2 = element;
+                    if (element1.Next is not null || element1.Before is not null) break;
                 }
+
+                element = element.Next;
             }
+
+            (element1.Value, element2.Value) = (element2.Value, element1.Value);
         }
     }
 
-    internal class TwoLinkedElement<T>
-    where T: IComparable<T>
+    internal class TwoLinkedElement<T> where T: IComparable<T>
     {
         public TwoLinkedElement<T> Next { get; set; }
         public TwoLinkedElement<T> Before { get; set; }
@@ -178,6 +209,16 @@ namespace Algorithms.FirstTask.ThirtTask
         {
             return element1.Value.CompareTo(element2.Value) == -1;
         }
+        
+        public static bool operator <=(TwoLinkedElement<T> element1, TwoLinkedElement<T> element2)
+        {
+            return element1.Value.CompareTo(element2.Value) is -1 or 0;
+        }
+
+        public static bool operator >=(TwoLinkedElement<T> element1, TwoLinkedElement<T> element2)
+        {
+            return element1.Value.CompareTo(element2.Value) is 1 or 0;
+        }
 
         public static bool operator ==(TwoLinkedElement<T> element1, TwoLinkedElement<T> element2)
         {
@@ -187,6 +228,24 @@ namespace Algorithms.FirstTask.ThirtTask
         public static bool operator !=(TwoLinkedElement<T> element1, TwoLinkedElement<T> element2)
         {
             return !(element1 == element2);
+        }
+        
+        protected bool Equals(TwoLinkedElement<T> other)
+        {
+            return Equals(Next, other.Next) && Equals(Before, other.Before) && EqualityComparer<T>.Default.Equals(Value, other.Value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TwoLinkedElement<T>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Next, Before, Value);
         }
     }
 }

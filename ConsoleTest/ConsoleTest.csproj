@@ -8,7 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\SlavaAlgorithms\SlavaAlgorithms.fsproj" />
-    <ProjectReference Include="..\StructsConsole\StructsConsole.csproj" />
   </ItemGroup>
 
 </Project>
