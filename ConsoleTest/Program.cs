@@ -2,11 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Algorithms.FirstTask.FourthTask;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Testers;
 
@@ -14,53 +16,55 @@ namespace ConsoleApp1
 {
 	class Program
 	{
-		static void Main()
+		private enum Attribute
 		{
-			/*var args = Environment.GetCommandLineArgs();
-			var duration = double.Parse(args.First(x => x.Contains("dur:")));
-			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-			using ExcelPackage package = new();*/
-			var b =  new int[] {2, 5, 6, 1, 2, 0, -4, 234};
-			b = b.GetPart(2, 1).ToArray();
-			Console.WriteLine(string.Join(", ", b));
+			Length, Number, Alphabet
+		}
+
+		private static void Main()
+		{
+			var args = Environment.GetCommandLineArgs();
+			var duration = int.Parse(args.FirstOrDefault(x => x.Contains("duration:"))?.Split(':')[1] ?? "0");
+			var key = args.FirstOrDefault(x => x.Contains("key:"))?.Split(':')[1];
+			var originalPath = args.FirstOrDefault(x => x.Contains("originalPath:"))?.Split(':')[1] ?? Path.Combine(Environment.CurrentDirectory, "test.txt");
+			var separator = args.FirstOrDefault(x => x.Contains("separator:"))?.Split(':')[1] ?? ";";
+			var attribute = (Attribute)Enum.Parse(typeof(Attribute), args.First(x => x.Contains("attribute:")).Split(':')[1]);
+			
+			var sorterModel = new DirectMergeSortModel(originalPath, duration, Convert.ToChar(separator), key);
+
+			Func<string, IComparable> selector = attribute switch
+			{
+				Attribute.Length => x => x.Length,
+				Attribute.Alphabet => x => new AlphabetStr(x),
+				Attribute.Number => x => Convert.ToInt64(x),
+				_ => throw new ArgumentOutOfRangeException()
+			};
+			sorterModel.Sort(selector);
+			Console.ReadKey();
 		}
 		
-		/*public static void SaveTable<TResult>(FileInfo file, TestResult<TResult>[] results, string title1, string title2,
-			bool isGraphic = true)
+		private class AlphabetStr: IComparable
 		{
-			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            
-			using ExcelPackage package = new(file);
-			string name = results[0].AlgorithmName;
-			var ws = package.Workbook.Worksheets
-				.FirstOrDefault(ws => ws.Name == name);
-
-			if (ws == null) ws = package.Workbook.Worksheets.Add(name);
-			else
+			public string _str;
+			public AlphabetStr(string str)
 			{
-				ws.Cells.Clear();
-				ws.Drawings.Clear();
+				_str = str;
 			}
 
-			ws.Cells[1, 1].Value = title1;
-			ws.Cells[1, 2].Value = title2;
-
-			for (int i = 2; i < results.Length + 2; i++)
+			public int CompareTo(object? obj)
 			{
-				ws.Cells[i, 1].Value = results[i - 2].ID;
-				ws.Cells[i, 2].Value = results[i - 2].Result;
-			}
+				if (obj is AlphabetStr str)
+				{
+					var min = Math.Min(_str.Length, str._str.Length);
+					for (var i = 0; i < min; i++)
+					{
+						if (_str[i] > str._str[i]) return 1;
+						else if (_str[i] < str._str[i]) return 0;
+					}
+				}
 
-			ws.Cells[ws.Dimension.Address].AutoFitColumns();
-			/*var table = ws.PivotTables.Add(dataRange, dataRange, results[0].AlgorithmName);
-			var field = table.RowFields.Add(table.Fields[""]);#1#
-			if (isGraphic)
-			{
-				var rangeX = ws.Cells[$"A2:A{results.Length + 1}"];
-				var rangeY = ws.Cells[$"B2:B{results.Length + 1}"];
-				AddChart(ws, rangeX, rangeY, name, title1, title2);
+				return 0;
 			}
-			package.Save();
-		}*/
+		}
 	}
 }
