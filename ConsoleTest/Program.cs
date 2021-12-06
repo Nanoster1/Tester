@@ -1,70 +1,93 @@
-﻿using Algorithms.FirstTask.ThirtTask;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Algorithms.FirstTask.FourthTask;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing.Chart;
+using Algorithms.FirstTask;
+using Algorithms.FirstTask.FirstTask;
 using Tester.Meta.Interfaces;
 using Tester.Meta.Testers;
 
-namespace ConsoleApp1
+//using Tester.Meta.Interfaces;
+//using Tester.Meta.Testers;
+//using Tester.Meta.Models;
+
+namespace ConsoleTest
 {
-	class Program
-	{
-		private enum Attribute
-		{
-			Length, Number, Alphabet
-		}
+    class Program
+    {
+        //static void Relocate(Stack<byte> start, Stack<byte> temp, Stack<byte>end, int elements)
+        //{
+        //    if (elements == 0) return;
+        //    Relocate(start, end, temp,elements - 1);
+        //    end.Push(start.Pop());
+        //    Collect(temp, start, end, elements - 1);
+        //}
 
-		private static void Main()
-		{
-			var args = Environment.GetCommandLineArgs();
-			var duration = int.Parse(args.FirstOrDefault(x => x.Contains("duration:"))?.Split(':')[1] ?? "0");
-			var key = args.FirstOrDefault(x => x.Contains("key:"))?.Split(':')[1];
-			var originalPath = args.FirstOrDefault(x => x.Contains("originalPath:"))?.Split(':')[1] ?? Path.Combine(Environment.CurrentDirectory, "test.txt");
-			var separator = args.FirstOrDefault(x => x.Contains("separator:"))?.Split(':')[1] ?? ";";
-			var attribute = (Attribute)Enum.Parse(typeof(Attribute), args.First(x => x.Contains("attribute:")).Split(':')[1]);
-			
-			var sorterModel = new DirectMergeSortModel(originalPath, duration, Convert.ToChar(separator), key);
+        //static void Collect(Stack<byte> start, Stack<byte> temp, Stack<byte>end, int elements)
+        //{
+        //    if (elements == 0) return;
+        //    Relocate(start, end, temp,elements - 1);
+        //    end.Push(start.Pop());
+        //    Collect(temp, start, end, elements - 1);
+        //}
 
-			Func<string, IComparable> selector = attribute switch
-			{
-				Attribute.Length => x => x.Length,
-				Attribute.Alphabet => x => new AlphabetStr(x),
-				Attribute.Number => x => Convert.ToInt64(x),
-				_ => throw new ArgumentOutOfRangeException()
-			};
-			sorterModel.Sort(selector);
-			Console.ReadKey();
-		}
-		
-		private class AlphabetStr: IComparable
-		{
-			public string _str;
-			public AlphabetStr(string str)
-			{
-				_str = str;
-			}
+        static void Main(string[] args)
+        {
+            var file = new SortFile(@"C:\Users\Nanoster\Desktop\test.txt", value =>
+            {
+                Console.WriteLine(value);
+            });
+            file.SortByFiles(1);
+        }
+        public static void SaveResult(ITester<long> tester, ITester<double> tester2)
+        {
+            tester.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(MemoryTester));
+            tester.AllResults.Clear();
+            tester2.SaveAsExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nameof(TimeTester));
+            tester2.AllResults.Clear();
+        }
+        private static ICollection<string> GetRecursiveMsdSortedArray(ICollection<string> array, int depth)
+        {
+            if (array.Count > 1)
+            {
+                var baskets = new Dictionary<char, List<string>>();
+                baskets.Add((char)96, new List<string>());
+                foreach (var word in array)
+                {
+                    if (depth < word.Length)
+                    {
+                        if (baskets.ContainsKey(word[depth]))
+                            baskets[word[depth]].Add(word);
+                        else
+                            baskets.Add(word[depth], new List<string> { word });
+                    }
+                    else
+                    {
+                        baskets[(char)96].Add(word);
+                    }
+                }
 
-			public int CompareTo(object? obj)
-			{
-				if (obj is AlphabetStr str)
-				{
-					var min = Math.Min(_str.Length, str._str.Length);
-					for (var i = 0; i < min; i++)
-					{
-						if (_str[i] > str._str[i]) return 1;
-						else if (_str[i] < str._str[i]) return 0;
-					}
-				}
+                if (baskets[(char)96].Count == array.Count)
+                    return array;
 
-				return 0;
-			}
-		}
-	}
+                List<string> output = new List<string>();
+                for (int i = 96; i <= 122; i++)
+                {
+                    if (baskets.ContainsKey((char)i))
+                    {
+                        foreach (string word in GetRecursiveMsdSortedArray(baskets[(char)i], depth + 1))
+                            output.Add(word);
+                    }
+                }
+
+                return output;
+            }
+            else
+            {
+                return array;
+            }
+        }
+    }
 }
